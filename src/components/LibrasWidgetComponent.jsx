@@ -2,36 +2,58 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Initialize Official VLibras Widget (Untouched default styling and official hands symbol)
-    if (!document.getElementById('vlibras-plugin-script')) {
-      const div = document.createElement('div');
-      div.setAttribute('vw', '');
-      div.className = 'enabled';
-      div.innerHTML = `
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-          <div class="vw-plugin-top-wrapper"></div>
-        </div>
-      `;
-      document.body.appendChild(div);
+    function initVLibras() {
+      // 1. Ensure VLibras DOM structure exists
+      if (!document.querySelector('div[vw]')) {
+        const div = document.createElement('div');
+        div.setAttribute('vw', '');
+        div.className = 'enabled';
+        div.innerHTML = `
+          <div vw-access-button class="active"></div>
+          <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+          </div>
+        `;
+        document.body.appendChild(div);
+      }
 
-      const script = document.createElement('script');
-      script.id = 'vlibras-plugin-script';
-      script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.VLibras) {
+      // 2. If window.VLibras is already loaded in memory (cache/reload), initialize widget immediately
+      if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+        try {
           new window.VLibras.Widget('https://vlibras.gov.br/app');
+        } catch (e) {
+          console.log('VLibras re-init:', e);
         }
-      };
-      document.body.appendChild(script);
+        return;
+      }
+
+      // 3. Otherwise append script with cache-busting timestamp to prevent stale cache issues
+      let script = document.getElementById('vlibras-plugin-script');
+      if (!script) {
+        script = document.createElement('script');
+        script.id = 'vlibras-plugin-script';
+        script.src = `https://vlibras.gov.br/app/vlibras-plugin.js?v=${Date.now()}`;
+        script.async = true;
+        script.onload = () => {
+          if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+            try {
+              new window.VLibras.Widget('https://vlibras.gov.br/app');
+            } catch (e) {
+              console.log('VLibras init error:', e);
+            }
+          }
+        };
+        document.body.appendChild(script);
+      } else if (window.VLibras) {
+        try {
+          new window.VLibras.Widget('https://vlibras.gov.br/app');
+        } catch (e) {}
+      }
     }
 
-    // Remove any legacy custom style overrides that broke VLibras
-    const oldStyle = document.getElementById('p360-libras-custom-style');
-    if (oldStyle) oldStyle.remove();
+    initVLibras();
 
-    // 2. Inject Universal Accessibility Toolbar (starts collapsed, opens on click, closes with X)
+    // 4. Inject Universal Accessibility Toolbar
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
@@ -48,7 +70,7 @@ export default function LibrasWidgetComponent() {
       `;
 
       accContainer.innerHTML = `
-        <button id="p360-acc-toggle-btn" style="width: 44px; height: 44px; background-color: #1f108e; color: #ffffff; border: none; border-radius: 12px 0 0 12px; display: flex; align-items: center; justifyContent: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25);" title="Menu de Acessibilidade">
+        <button id="p360-acc-toggle-btn" style="width: 44px; height: 44px; background-color: #1f108e; color: #ffffff; border: none; border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25);" title="Menu de Acessibilidade">
           <span class="material-symbols-outlined" style="font-size: 24px;">accessibility_new</span>
         </button>
 
@@ -82,7 +104,6 @@ export default function LibrasWidgetComponent() {
 
       document.body.appendChild(accContainer);
 
-      // Event listeners
       const toggleBtn = document.getElementById('p360-acc-toggle-btn');
       const closeBtn = document.getElementById('p360-acc-close-btn');
       const panel = document.getElementById('p360-acc-modal-panel');
@@ -97,7 +118,6 @@ export default function LibrasWidgetComponent() {
 
       closeBtn?.addEventListener('click', closePanel);
 
-      // Accessibility features logic
       let isHighContrast = false;
       let fontSizeScale = 100;
       let isTTSActive = false;
