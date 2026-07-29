@@ -38,8 +38,8 @@ export default function Login() {
     <div className="page page-login animate-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
       <div className="card animate-slide-up stagger-1" style={{ maxWidth: '420px', width: '100%', padding: '32px', borderRadius: '24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '20px', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '24px', fontWeight: '900', boxShadow: 'var(--shadow-ambient)' }}>
-            360
+          <div style={{ width: '72px', height: '72px', borderRadius: '20px', backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', padding: '8px', boxShadow: 'var(--shadow-ambient)', border: '1px solid var(--surface-dim)' }}>
+            <img src="/favicon.png" alt="Participa 360 Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--on-surface)', marginBottom: '4px' }}>Participa 360</h1>
           <p style={{ fontSize: '14px', color: 'var(--outline)' }}>Transforme sua cidade com a comunidade</p>
