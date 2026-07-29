@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Create flex sidebar container for both buttons on right edge
+    // 1. Ensure div[vw] is at body level (so avatar window expands freely across screen)
+    const vwDiv = document.querySelector('div[vw]');
+    if (vwDiv && vwDiv.parentElement !== document.body) {
+      document.body.appendChild(vwDiv);
+    }
+
+    // 2. Create Universal Accessibility button & popup container at body level
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
@@ -12,10 +18,6 @@ export default function LibrasWidgetComponent() {
         right: 0 !important;
         top: 38% !important;
         z-index: 99995 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        gap: 8px !important;
       `;
 
       accContainer.innerHTML = `
@@ -107,49 +109,41 @@ export default function LibrasWidgetComponent() {
       });
     }
 
-    // 2. Nest div[vw] inside flex container and apply flex styling
-    const attachVwToFlex = () => {
-      const vwDiv = document.querySelector('div[vw]');
-      const container = document.getElementById('p360-acc-container');
-      if (vwDiv && container && vwDiv.parentElement !== container) {
-        container.appendChild(vwDiv);
-      }
-    };
-
-    attachVwToFlex();
-    const interval = setInterval(attachVwToFlex, 500);
-
-    // 3. Inject CSS to enforce flex layout with ZERO overlap
-    let styleTag = document.getElementById('p360-acc-flex-style');
+    // 3. Inject CSS to position VLibras button directly below Accessibility button, WITHOUT clipping avatar window when expanded
+    let styleTag = document.getElementById('p360-acc-unclip-style');
     if (!styleTag) {
       styleTag = document.createElement('style');
-      styleTag.id = 'p360-acc-flex-style';
+      styleTag.id = 'p360-acc-unclip-style';
       styleTag.innerHTML = `
-        #p360-acc-container div[vw].enabled {
-          position: relative !important;
-          top: auto !important;
+        /* Dock VLibras root to right edge right below accessibility button */
+        div[vw].enabled {
+          position: fixed !important;
+          right: 0 !important;
+          top: calc(38% + 52px) !important;
           bottom: auto !important;
           left: auto !important;
-          right: auto !important;
-          transform: none !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          width: 44px !important;
-          height: 44px !important;
+          width: auto !important;
+          height: auto !important;
+          z-index: 99990 !important;
         }
 
-        #p360-acc-container div[vw] [vw-access-button] {
+        /* VLibras access button styling */
+        div[vw] [vw-access-button] {
           position: relative !important;
-          top: auto !important;
-          bottom: auto !important;
+          top: 0 !important;
+          right: 0 !important;
           left: auto !important;
-          right: auto !important;
-          transform: none !important;
+          bottom: auto !important;
           margin: 0 !important;
           width: 44px !important;
           height: 44px !important;
           border-radius: 12px 0 0 12px !important;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        /* Ensure expanded VLibras plugin wrapper (3D avatar window) floats freely without clipping */
+        div[vw] [vw-plugin-wrapper] {
+          z-index: 999999 !important;
         }
       `;
       document.head.appendChild(styleTag);
@@ -161,10 +155,6 @@ export default function LibrasWidgetComponent() {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       } catch (e) {}
     }
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   return null;
