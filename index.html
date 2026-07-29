@@ -24,7 +24,7 @@
 <body class="bg-[#f8f9ff] text-[#0b1c30] antialiased selection:bg-[#1f108e] selection:text-white">
   <div id="root"></div>
 
-  <!-- VLibras Official Widget -->
+  <!-- VLibras Official Widget (Pure Native) -->
   <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
@@ -33,13 +33,7 @@
   </div>
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
-    if (window.VLibras) {
-      new window.VLibras.Widget('https://vlibras.gov.br/app');
-    } else {
-      window.addEventListener('DOMContentLoaded', function() {
-        if (window.VLibras) new window.VLibras.Widget('https://vlibras.gov.br/app');
-      });
-    }
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
 
   <script type="module" src="/src/main.jsx"></script>

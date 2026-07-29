@@ -2,24 +2,19 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Create right sidebar container for accessibility buttons
-    let sidebar = document.getElementById('p360-acc-sidebar');
-    if (!sidebar) {
-      sidebar = document.createElement('div');
-      sidebar.id = 'p360-acc-sidebar';
-      sidebar.style.cssText = `
+    // 1. Inject Universal Accessibility Button & Menu at right edge
+    let accContainer = document.getElementById('p360-acc-container');
+    if (!accContainer) {
+      accContainer = document.createElement('div');
+      accContainer.id = 'p360-acc-container';
+      accContainer.style.cssText = `
         position: fixed !important;
         right: 0 !important;
-        top: 40% !important;
-        transform: translateY(-50%) !important;
+        top: 38% !important;
         z-index: 99995 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        gap: 8px !important;
       `;
 
-      sidebar.innerHTML = `
+      accContainer.innerHTML = `
         <button id="p360-acc-toggle-btn" style="width: 44px; height: 44px; background-color: #1f108e; color: #ffffff; border: none; border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25);" title="Menu de Acessibilidade">
           <span class="material-symbols-outlined" style="font-size: 24px;">accessibility_new</span>
         </button>
@@ -52,7 +47,7 @@ export default function LibrasWidgetComponent() {
         </div>
       `;
 
-      document.body.appendChild(sidebar);
+      document.body.appendChild(accContainer);
 
       const toggleBtn = document.getElementById('p360-acc-toggle-btn');
       const closeBtn = document.getElementById('p360-acc-close-btn');
@@ -108,75 +103,30 @@ export default function LibrasWidgetComponent() {
       });
     }
 
-    // 2. Attach VLibras button into sidebar for flex alignment, but keep plugin wrapper at body root
-    const alignVibrasButton = () => {
-      const accessBtn = document.querySelector('div[vw] [vw-access-button]');
-      const sidebarEl = document.getElementById('p360-acc-sidebar');
-      if (accessBtn && sidebarEl && accessBtn.parentElement !== sidebarEl) {
-        sidebarEl.appendChild(accessBtn);
-      }
-    };
-
-    alignVibrasButton();
-    const interval = setInterval(alignVibrasButton, 300);
-
-    // 3. Inject CSS to ensure flex items never overlap and expanded avatar floats freely
-    let styleTag = document.getElementById('p360-perfect-sidebar-style');
+    // 2. Inject CSS to position native VLibras button directly 50px below accessibility button on right edge
+    let styleTag = document.getElementById('p360-clean-vlibras-style');
     if (!styleTag) {
       styleTag = document.createElement('style');
-      styleTag.id = 'p360-perfect-sidebar-style';
+      styleTag.id = 'p360-clean-vlibras-style';
       styleTag.innerHTML = `
-        /* Reset VLibras root container */
         div[vw].enabled {
-          position: static !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-
-        /* VLibras Access Button as Flex Child inside Sidebar */
-        #p360-acc-sidebar [vw-access-button] {
-          position: relative !important;
-          top: auto !important;
+          position: fixed !important;
+          right: 0 !important;
+          top: calc(38% + 50px) !important;
           bottom: auto !important;
           left: auto !important;
-          right: auto !important;
-          transform: none !important;
-          margin: 0 !important;
+          z-index: 99990 !important;
+        }
+
+        div[vw] [vw-access-button] {
           width: 44px !important;
           height: 44px !important;
           border-radius: 12px 0 0 12px !important;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-          cursor: pointer !important;
-        }
-
-        /* Expanded VLibras Avatar Window - Positioned Fixed on Viewport, Never Clipped */
-        [vw-plugin-wrapper] {
-          position: fixed !important;
-          z-index: 999999 !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
-          pointer-events: none !important;
-        }
-
-        [vw-plugin-wrapper] * {
-          pointer-events: auto !important;
         }
       `;
       document.head.appendChild(styleTag);
     }
-
-    // Check if VLibras needs initialization on React mount
-    if (window.VLibras && typeof window.VLibras.Widget === 'function') {
-      try {
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-      } catch (e) {}
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   return null;
