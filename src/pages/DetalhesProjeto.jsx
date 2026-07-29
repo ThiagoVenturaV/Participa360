@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import parkImg from '../assets/park_revitalization.jpg';
 
 export default function DetalhesProjeto() {
   const navigate = useNavigate();
@@ -16,14 +17,32 @@ export default function DetalhesProjeto() {
       </header>
 
       <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {/* Project Card */}
-        <div className="hero-card" style={{ padding: '24px', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <span className="badge badge-resolvido" style={{ width: 'max-content' }}>
-            Em Andamento
-          </span>
-          <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#ffffff', lineHeight: '1.3' }}>Revitalização da Praça Central</h2>
-          <div style={{ fontSize: '12px', color: '#c3c0ff', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>location_on</span> Bairro Jardim Esperança
+        {/* Hero project card with image */}
+        <div
+          style={{
+            position: 'relative',
+            minHeight: '200px',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            backgroundImage: `url(${parkImg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justify: 'flex-end',
+            padding: '20px',
+            boxShadow: 'var(--shadow-ambient)'
+          }}
+        >
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11, 28, 48, 0.85) 0%, transparent 100%)' }}></div>
+          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <span className="badge badge-resolvido" style={{ width: 'max-content' }}>
+              Em Andamento
+            </span>
+            <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#ffffff', lineHeight: '1.3' }}>Revitalização da Praça Central</h2>
+            <div style={{ fontSize: '12px', color: '#e2dfff', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>location_on</span> Bairro Jardim Esperança
+            </div>
           </div>
         </div>
 
@@ -47,7 +66,7 @@ export default function DetalhesProjeto() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', items: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>✓</div>
               <div>
                 <div style={{ fontSize: '12px', fontWeight: '700' }}>Fase 1: Limpeza</div>
@@ -55,7 +74,7 @@ export default function DetalhesProjeto() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', items: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>2</div>
               <div>
                 <div style={{ fontSize: '12px', fontWeight: '700' }}>Fase 2: Infraestrutura</div>

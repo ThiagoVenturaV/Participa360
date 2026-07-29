@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import heatmapMapImg from '../assets/heatmap_map.jpg';
 
 export default function HomePrefeitura() {
   return (
@@ -54,21 +55,57 @@ export default function HomePrefeitura() {
           </div>
         </div>
 
-        {/* Heatmap Section */}
+        {/* Heatmap Section - Exactly matching Stitch screen reference */}
         <section className="card" style={{ padding: '20px', borderRadius: '24px' }}>
           <div className="section-header">
             <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--on-surface)' }}>Pontos Críticos e Relatos ao Vivo</h3>
             <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', cursor: 'pointer' }}>Filtros</span>
           </div>
 
-          <div style={{ width: '100%', height: '180px', borderRadius: '16px', background: 'linear-gradient(135deg, #fef3c7 0%, #ffe4e6 50%, #e0e7ff 100%)', border: '1px solid var(--outline-variant)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '12px', marginTop: '12px' }}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderRadius: '12px', padding: '12px', boxShadow: 'var(--shadow-default)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+          {/* Map container with actual heatmap background image */}
+          <div
+            style={{
+              width: '100%',
+              minHeight: '260px',
+              borderRadius: '20px',
+              backgroundImage: `url(${heatmapMapImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              border: '1px solid var(--surface-dim)',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              justify: 'flex-end',
+              padding: '16px',
+              marginTop: '12px'
+            }}
+          >
+            {/* Overlay card matching user screenshot 1 */}
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(12px)',
+                borderRadius: '16px',
+                padding: '16px',
+                boxShadow: 'var(--shadow-elevated)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--error)', display: 'inline-block' }}></span>
-                <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--on-surface)' }}>Crítico: Infraestrutura</span>
+                <span style={{ fontSize: '13px', fontWeight: '800', color: 'var(--on-surface)' }}>Crítico: Infraestrutura</span>
               </div>
-              <p style={{ fontSize: '11px', color: 'var(--outline)', marginBottom: '8px' }}>Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.</p>
-              <button className="btn btn-primary btn-sm btn-block">Despachar Equipe</button>
+              <p style={{ fontSize: '12px', color: 'var(--on-surface)', lineHeight: '1.4' }}>
+                Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.
+              </p>
+              <button
+                className="btn btn-primary btn-block"
+                style={{ borderRadius: '9999px', marginTop: '4px', fontSize: '13px', fontWeight: '700' }}
+              >
+                Despachar Equipe
+              </button>
             </div>
           </div>
         </section>
