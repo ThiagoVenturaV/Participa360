@@ -76,7 +76,7 @@ export default function HomePrefeitura() {
           <div
             style={{
               width: '100%',
-              minHeight: '260px',
+              minHeight: '340px',
               borderRadius: '20px',
               backgroundImage: `url(${heatmapMapImg})`,
               backgroundSize: 'cover',
@@ -87,7 +87,8 @@ export default function HomePrefeitura() {
               flexDirection: 'column',
               justify: 'flex-end',
               padding: '16px',
-              marginTop: '12px'
+              marginTop: '12px',
+              overflow: 'hidden'
             }}
           >
             <div
@@ -95,11 +96,12 @@ export default function HomePrefeitura() {
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '16px',
-                padding: '16px',
+                padding: '14px',
                 boxShadow: 'var(--shadow-elevated)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '8px'
+                gap: '8px',
+                width: '100%'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
