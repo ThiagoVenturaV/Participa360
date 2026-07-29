@@ -13,8 +13,16 @@ export default function HomeEmpresa() {
   const { user } = useAuth();
   const { projetos, patrocinarProjeto } = useData();
 
+  const [esgFilter, setEsgFilter] = useState('Todos');
   const [sponsoringProj, setSponsoringProj] = useState(null);
   const [investValue, setInvestValue] = useState('R$ 50.000');
+
+  const filteredProjetos = projetos.filter((p) => {
+    if (esgFilter === 'Todos') return true;
+    if (esgFilter === 'Necessita Patrocínio') return !p.empresa;
+    if (esgFilter === 'Patrocinados') return Boolean(p.empresa);
+    return true;
+  });
 
   const handleConfirmSponsorship = (e) => {
     e.preventDefault();
@@ -68,44 +76,66 @@ export default function HomeEmpresa() {
 
         {/* Sponsorship Opportunities (ESG) */}
         <section className="section" style={{ marginBottom: 0 }}>
-          <h3 className="section-title" style={{ fontSize: '15px', marginBottom: '12px' }}>
-            Oportunidades de Apadrinhar Projetos (ESG)
-          </h3>
+          <div className="section-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+            <h3 className="section-title" style={{ fontSize: '15px' }}>
+              Oportunidades de Apadrinhar Projetos (ESG)
+            </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {projetos.map((proj) => {
-              const isSponsored = Boolean(proj.empresa);
+            {/* Filter chips for ESG opportunities */}
+            <div className="scroll-h" style={{ width: '100%' }}>
+              {['Todos', 'Necessita Patrocínio', 'Patrocinados'].map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setEsgFilter(f)}
+                  className={`chip ${esgFilter === f ? 'chip-active' : ''}`}
+                  style={{ fontSize: '11px', padding: '6px 12px' }}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
 
-              return (
-                <div key={proj.id} className="card" style={{ padding: '16px', borderRadius: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase' }}>
-                      {proj.bairro}
-                    </span>
-                    <span className={`badge ${isSponsored ? 'badge-resolvido' : 'badge-em-andamento'}`}>
-                      {isSponsored ? `Patrocinado por ${proj.empresa}` : 'Necessita Patrocínio ESG'}
-                    </span>
-                  </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
+            {filteredProjetos.length === 0 ? (
+              <div className="card" style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: 'var(--outline)' }}>
+                Nenhum projeto encontrado no filtro "{esgFilter}".
+              </div>
+            ) : (
+              filteredProjetos.map((proj) => {
+                const isSponsored = Boolean(proj.empresa);
 
-                  <h4 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--on-surface)' }}>{proj.titulo}</h4>
-                  <p style={{ fontSize: '12px', color: 'var(--outline)', lineHeight: '1.4' }}>{proj.descricao}</p>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
-                      Investimento: {proj.valorInvestimento}
+                return (
+                  <div key={proj.id} className="card" style={{ padding: '16px', borderRadius: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase' }}>
+                        {proj.bairro}
+                      </span>
+                      <span className={`badge ${isSponsored ? 'badge-resolvido' : 'badge-em-andamento'}`}>
+                        {isSponsored ? `Patrocinado por ${proj.empresa}` : 'Necessita Patrocínio ESG'}
+                      </span>
                     </div>
 
-                    <button
-                      onClick={() => setSponsoringProj(proj)}
-                      className={`btn btn-sm ${isSponsored ? 'btn-outline' : 'btn-primary'}`}
-                      style={{ borderRadius: '9999px' }}
-                    >
-                      {isSponsored ? 'Ver Parceria' : 'Apadrinhar Projeto ✨'}
-                    </button>
+                    <h4 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--on-surface)' }}>{proj.titulo}</h4>
+                    <p style={{ fontSize: '12px', color: 'var(--outline)', lineHeight: '1.4' }}>{proj.descricao}</p>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                      <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
+                        Investimento: {proj.valorInvestimento}
+                      </div>
+
+                      <button
+                        onClick={() => setSponsoringProj(proj)}
+                        className={`btn btn-sm ${isSponsored ? 'btn-outline' : 'btn-primary'}`}
+                        style={{ borderRadius: '9999px' }}
+                      >
+                        {isSponsored ? 'Ver Parceria' : 'Apadrinhar Projeto ✨'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </section>
       </main>

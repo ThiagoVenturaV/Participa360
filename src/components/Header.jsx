@@ -7,6 +7,8 @@ export default function Header({ showPoints = true }) {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
 
+  const isGovOrCorp = user?.role === 'prefeitura' || user?.role === 'empresa';
+
   return (
     <>
       <header className="header" style={{ position: 'sticky', top: 0, backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)', zIndex: 40, borderBottom: '1px solid var(--surface-dim)' }}>
@@ -22,7 +24,7 @@ export default function Header({ showPoints = true }) {
               </div>
               <div>
                 <div style={{ fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)' }}>
-                  {user.role === 'morador' ? 'Residente Prata' : user.role === 'lider' ? 'Líder Comunitário' : user.role === 'prefeitura' ? 'Prefeitura' : 'Empresa/IES'}
+                  {user.role === 'morador' ? 'Residente Prata' : user.role === 'lider' ? 'Líder Comunitário' : user.role === 'prefeitura' ? 'Prefeitura' : 'Empresa ESG'}
                 </div>
                 <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)' }}>
                   {user.name}
@@ -37,7 +39,7 @@ export default function Header({ showPoints = true }) {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {user && (
+          {user && !isGovOrCorp && (
             <button
               onClick={() => navigate('/ranking')}
               className="btn btn-sm"
@@ -56,6 +58,28 @@ export default function Header({ showPoints = true }) {
             >
               <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#d97706' }}>military_tech</span>
               {user.points || 450} pts
+            </button>
+          )}
+
+          {user && isGovOrCorp && (
+            <button
+              onClick={() => navigate('/ranking')}
+              className="btn btn-sm"
+              style={{
+                borderRadius: '9999px',
+                padding: '6px 12px',
+                fontSize: '11px',
+                fontWeight: '800',
+                backgroundColor: 'var(--surface-container)',
+                color: 'var(--primary)',
+                border: '1px solid var(--surface-dim)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '16px', color: 'var(--primary)' }}>analytics</span>
+              {user.role === 'prefeitura' ? 'Painel Gestão' : 'Painel ESG'}
             </button>
           )}
 
