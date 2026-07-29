@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Inject Universal Accessibility Button & Menu at right edge
+    // 1. Inject Universal Accessibility Button & Menu higher up on right edge
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
@@ -10,7 +10,7 @@ export default function LibrasWidgetComponent() {
       accContainer.style.cssText = `
         position: fixed !important;
         right: 0 !important;
-        top: 38% !important;
+        top: 25% !important;
         z-index: 99995 !important;
       `;
 
@@ -103,7 +103,7 @@ export default function LibrasWidgetComponent() {
       });
     }
 
-    // 2. Inject CSS to position native VLibras button directly 50px below accessibility button on right edge
+    // 2. Inject CSS to position native VLibras button comfortably at 45% on right edge
     let styleTag = document.getElementById('p360-clean-vlibras-style');
     if (!styleTag) {
       styleTag = document.createElement('style');
@@ -112,7 +112,7 @@ export default function LibrasWidgetComponent() {
         div[vw].enabled {
           position: fixed !important;
           right: 0 !important;
-          top: calc(38% + 50px) !important;
+          top: 45% !important;
           bottom: auto !important;
           left: auto !important;
           z-index: 99990 !important;
