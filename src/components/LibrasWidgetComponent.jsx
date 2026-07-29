@@ -2,58 +2,7 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    function initVLibras() {
-      // 1. Ensure VLibras DOM structure exists
-      if (!document.querySelector('div[vw]')) {
-        const div = document.createElement('div');
-        div.setAttribute('vw', '');
-        div.className = 'enabled';
-        div.innerHTML = `
-          <div vw-access-button class="active"></div>
-          <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-          </div>
-        `;
-        document.body.appendChild(div);
-      }
-
-      // 2. If window.VLibras is already loaded in memory (cache/reload), initialize widget immediately
-      if (window.VLibras && typeof window.VLibras.Widget === 'function') {
-        try {
-          new window.VLibras.Widget('https://vlibras.gov.br/app');
-        } catch (e) {
-          console.log('VLibras re-init:', e);
-        }
-        return;
-      }
-
-      // 3. Otherwise append script with cache-busting timestamp to prevent stale cache issues
-      let script = document.getElementById('vlibras-plugin-script');
-      if (!script) {
-        script = document.createElement('script');
-        script.id = 'vlibras-plugin-script';
-        script.src = `https://vlibras.gov.br/app/vlibras-plugin.js?v=${Date.now()}`;
-        script.async = true;
-        script.onload = () => {
-          if (window.VLibras && typeof window.VLibras.Widget === 'function') {
-            try {
-              new window.VLibras.Widget('https://vlibras.gov.br/app');
-            } catch (e) {
-              console.log('VLibras init error:', e);
-            }
-          }
-        };
-        document.body.appendChild(script);
-      } else if (window.VLibras) {
-        try {
-          new window.VLibras.Widget('https://vlibras.gov.br/app');
-        } catch (e) {}
-      }
-    }
-
-    initVLibras();
-
-    // 4. Inject Universal Accessibility Toolbar
+    // Universal Accessibility Toolbar (starts collapsed, opens on click, closes with X)
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
@@ -61,7 +10,7 @@ export default function LibrasWidgetComponent() {
       accContainer.style.cssText = `
         position: fixed;
         right: 0;
-        top: 45%;
+        top: 40%;
         transform: translateY(-50%);
         z-index: 99999;
         display: flex;
