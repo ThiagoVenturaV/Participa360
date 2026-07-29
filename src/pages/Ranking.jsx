@@ -159,7 +159,7 @@ export default function Ranking() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
               <div className="scroll-h">
                 <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--outline)', alignSelf: 'center', marginRight: '4px' }}>Bairro:</span>
-                {['Todos', 'Bairro do Recife', 'Santo Amaro', 'Boa Viagem', 'Graças', 'Espinheiro'].map((b) => (
+                {['Todos', 'Pilar', 'Ibura', 'Portelinha', 'Coque', 'Iraque'].map((b) => (
                   <button
                     key={b}
                     onClick={() => setSelectedBairro(b)}
