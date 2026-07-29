@@ -2,6 +2,7 @@ const store = {
   user: null,
   token: localStorage.getItem('p360_token'),
   currentPage: 'login',
+  currentReportCategory: null,
   
   setUser(user) {
     this.user = user;
@@ -14,6 +15,15 @@ const store = {
     } else {
       localStorage.removeItem('p360_token');
     }
+  },
+
+  dispatch(action, payload) {
+    if (action === 'SET_USER') this.setUser(payload);
+    if (action === 'SET_TOKEN') this.setToken(payload);
+  },
+
+  setState(state) {
+    Object.assign(this, state);
   },
   
   clearAuth() {
@@ -33,7 +43,7 @@ const store = {
       prefeitura: '/home-prefeitura',
       empresa: '/home-empresa'
     };
-    return routes[this.user?.role] || '/login';
+    return routes[this.user?.role] || '/home';
   }
 };
 

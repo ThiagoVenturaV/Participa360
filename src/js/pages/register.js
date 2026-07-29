@@ -51,8 +51,8 @@ export function render(container) {
 
     try {
       const response = await api.post('/auth/register', { name, email, password, role });
-      store.dispatch('SET_USER', response.user);
-      store.dispatch('SET_TOKEN', response.token);
+      store.setUser(response.user);
+      store.setToken(response.token);
       router.navigate('/home');
     } catch (error) {
       alert('Erro ao registrar: ' + (error.message || 'Tente novamente.'));

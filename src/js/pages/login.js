@@ -44,15 +44,9 @@ export function render(container) {
 
     try {
       const response = await api.post('/auth/login', { email, password });
-      store.dispatch('SET_USER', response.user);
-      store.dispatch('SET_TOKEN', response.token);
-      
-      const role = response.user.role;
-      if (role === 'morador') router.navigate('/home-morador');
-      else if (role === 'lider') router.navigate('/home-lider');
-      else if (role === 'prefeitura') router.navigate('/home-prefeitura');
-      else if (role === 'empresa') router.navigate('/home-empresa');
-      else router.navigate('/');
+      store.setUser(response.user);
+      store.setToken(response.token);
+      router.navigate(store.getHomeRoute());
     } catch (error) {
       alert('Erro ao fazer login: ' + (error.message || 'Verifique suas credenciais.'));
       submitBtn.innerHTML = '<span>Entrar</span>';

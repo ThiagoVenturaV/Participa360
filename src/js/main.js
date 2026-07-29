@@ -7,54 +7,46 @@ import '../css/components.css';
 import '../css/layouts.css';
 import '../css/animations.css';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Register Service Worker
-  if ('serviceWorker' in navigator) {
-    try {
-      await navigator.serviceWorker.register('/sw.js');
-      console.log('SW registered');
-    } catch (err) {
-      console.error('SW registration failed:', err);
-    }
-  }
-  
-  // 2. & 3. Check for existing JWT token
+async function initApp() {
+  // 1. Check for existing JWT token and fetch user
   if (store.isAuthenticated()) {
     try {
-      // Typically: const user = await api.get('/auth/me');
-      const mockUser = { id: 1, name: 'Usuário Teste', role: 'morador' };
-      store.setUser(mockUser);
+      const user = await api.get('/auth/me');
+      store.setUser(user);
     } catch (e) {
+      console.warn('Invalid or expired token, clearing auth:', e);
       store.clearAuth();
     }
   }
   
-  // 4. Initialize router
+  // 2. Initialize router
   router.init();
   
-  // 5. Initialize voice agent FAB
+  // 3. Initialize voice agent FAB
   initVoiceAgent();
-  
-  // 6. Check for PWA install prompt
-  let deferredPrompt;
+
+  // 4. Register Service Worker if supported
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.register('/sw.js');
+    } catch (err) {
+      console.error('SW registration failed:', err);
+    }
+  }
+
+  // 5. PWA install prompt handler
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    deferredPrompt = e;
+    window.deferredPrompt = e;
   });
-  
-  // 7. Show tutorial overlay if first visit
-  if (!localStorage.getItem('p360_tutorial_seen')) {
-    localStorage.setItem('p360_tutorial_seen', 'true');
-    // showTutorial();
-  }
-});
+}
 
 function initVoiceAgent() {
   const container = document.getElementById('fab-container');
   if (!container) return;
   
   container.innerHTML = `
-    <button class="fab-voice" aria-label="Assistente de Voz">
+    <button class="fab-voice" aria-label="Assistente de Voz (Cora)">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
         <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
@@ -62,4 +54,10 @@ function initVoiceAgent() {
       </svg>
     </button>
   `;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
 }

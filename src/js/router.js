@@ -69,9 +69,10 @@ const router = {
     try {
       store.currentPage = path;
       const module = await route.page();
-      if (module.default && appContainer) {
+      const renderFn = module.render || module.default;
+      if (renderFn && appContainer) {
         appContainer.innerHTML = '';
-        const pageContent = await module.default(params);
+        const pageContent = await renderFn(appContainer, params);
         if (typeof pageContent === 'string') {
            appContainer.innerHTML = pageContent;
         } else if (pageContent instanceof Node) {
