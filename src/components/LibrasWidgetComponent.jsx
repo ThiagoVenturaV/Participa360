@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Inject Universal Accessibility Button & Menu higher up on right edge
+    // Inject Universal Accessibility Toolbar (positioned higher up at top: 20% on right edge)
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
@@ -10,7 +10,7 @@ export default function LibrasWidgetComponent() {
       accContainer.style.cssText = `
         position: fixed !important;
         right: 0 !important;
-        top: 25% !important;
+        top: 20% !important;
         z-index: 99995 !important;
       `;
 
@@ -101,31 +101,6 @@ export default function LibrasWidgetComponent() {
           document.body.addEventListener('mouseover', speak);
         }
       });
-    }
-
-    // 2. Inject CSS to position native VLibras button comfortably at 45% on right edge
-    let styleTag = document.getElementById('p360-clean-vlibras-style');
-    if (!styleTag) {
-      styleTag = document.createElement('style');
-      styleTag.id = 'p360-clean-vlibras-style';
-      styleTag.innerHTML = `
-        div[vw].enabled {
-          position: fixed !important;
-          right: 0 !important;
-          top: 45% !important;
-          bottom: auto !important;
-          left: auto !important;
-          z-index: 99990 !important;
-        }
-
-        div[vw] [vw-access-button] {
-          width: 44px !important;
-          height: 44px !important;
-          border-radius: 12px 0 0 12px !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-        }
-      `;
-      document.head.appendChild(styleTag);
     }
   }, []);
 
