@@ -2,66 +2,24 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
-    // 1. Inject CSS rules to align BOTH Accessibility & VLibras buttons together on the right edge
-    let styleTag = document.getElementById('p360-acc-align-style');
-    if (!styleTag) {
-      styleTag = document.createElement('style');
-      styleTag.id = 'p360-acc-align-style';
-      styleTag.innerHTML = `
-        /* Universal Accessibility Button on Right Edge */
-        #p360-acc-container {
-          position: fixed !important;
-          right: 0 !important;
-          top: 38% !important;
-          z-index: 99995 !important;
-        }
-
-        #p360-acc-toggle-btn {
-          width: 44px !important;
-          height: 44px !important;
-          border-radius: 12px 0 0 12px !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-        }
-
-        /* VLibras Button stacked directly below Accessibility button */
-        div[vw].enabled {
-          position: fixed !important;
-          right: 0 !important;
-          top: calc(38% + 50px) !important;
-          bottom: auto !important;
-          left: auto !important;
-          z-index: 99990 !important;
-        }
-
-        div[vw] [vw-access-button] {
-          position: relative !important;
-          right: 0 !important;
-          top: 0 !important;
-          margin: 0 !important;
-          width: 44px !important;
-          height: 44px !important;
-          border-radius: 12px 0 0 12px !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-        }
-      `;
-      document.head.appendChild(styleTag);
-    }
-
-    // 2. Check if VLibras needs initialization on React mount
-    if (window.VLibras && typeof window.VLibras.Widget === 'function') {
-      try {
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-      } catch (e) {}
-    }
-
-    // 3. Universal Accessibility Toolbar (starts collapsed, opens on click, closes with X)
+    // 1. Create flex sidebar container for both buttons on right edge
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
       accContainer = document.createElement('div');
       accContainer.id = 'p360-acc-container';
+      accContainer.style.cssText = `
+        position: fixed !important;
+        right: 0 !important;
+        top: 38% !important;
+        z-index: 99995 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 8px !important;
+      `;
 
       accContainer.innerHTML = `
-        <button id="p360-acc-toggle-btn" style="width: 44px; height: 44px; background-color: #1f108e; color: #ffffff; border: none; border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Menu de Acessibilidade">
+        <button id="p360-acc-toggle-btn" style="width: 44px; height: 44px; background-color: #1f108e; color: #ffffff; border: none; border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25);" title="Menu de Acessibilidade">
           <span class="material-symbols-outlined" style="font-size: 24px;">accessibility_new</span>
         </button>
 
@@ -148,6 +106,65 @@ export default function LibrasWidgetComponent() {
         }
       });
     }
+
+    // 2. Nest div[vw] inside flex container and apply flex styling
+    const attachVwToFlex = () => {
+      const vwDiv = document.querySelector('div[vw]');
+      const container = document.getElementById('p360-acc-container');
+      if (vwDiv && container && vwDiv.parentElement !== container) {
+        container.appendChild(vwDiv);
+      }
+    };
+
+    attachVwToFlex();
+    const interval = setInterval(attachVwToFlex, 500);
+
+    // 3. Inject CSS to enforce flex layout with ZERO overlap
+    let styleTag = document.getElementById('p360-acc-flex-style');
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = 'p360-acc-flex-style';
+      styleTag.innerHTML = `
+        #p360-acc-container div[vw].enabled {
+          position: relative !important;
+          top: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+          right: auto !important;
+          transform: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 44px !important;
+          height: 44px !important;
+        }
+
+        #p360-acc-container div[vw] [vw-access-button] {
+          position: relative !important;
+          top: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+          right: auto !important;
+          transform: none !important;
+          margin: 0 !important;
+          width: 44px !important;
+          height: 44px !important;
+          border-radius: 12px 0 0 12px !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        }
+      `;
+      document.head.appendChild(styleTag);
+    }
+
+    // Check if VLibras needs initialization on React mount
+    if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+      try {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      } catch (e) {}
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return null;
