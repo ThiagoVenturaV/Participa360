@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { DataProvider } from './context/DataContext';
 import { ToastProvider } from './components/Toast';
 
 import BottomNav from './components/BottomNav';
@@ -22,6 +23,7 @@ import MeusRelatos from './pages/MeusRelatos';
 import Marketplace from './pages/Marketplace';
 import DetalhesProjeto from './pages/DetalhesProjeto';
 import Perfil from './pages/Perfil';
+import Ranking from './pages/Ranking';
 
 function ProtectedLayout() {
   const { user, token, loading } = useAuth();
@@ -73,6 +75,7 @@ function ProtectedLayout() {
         <Route path="/alertas" element={<Alertas />} />
         <Route path="/meus-relatos" element={<MeusRelatos />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/ranking" element={<Ranking />} />
         <Route path="/projeto/:id" element={<DetalhesProjeto />} />
         <Route path="/perfil" element={<Perfil onOpenPWATutorial={() => setShowPWATutorial(true)} />} />
         <Route path="*" element={<Navigate to={getRoleHome()} replace />} />
@@ -89,15 +92,17 @@ function ProtectedLayout() {
 export default function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/*" element={<ProtectedLayout />} />
-          </Routes>
-        </BrowserRouter>
-      </ToastProvider>
+      <DataProvider>
+        <ToastProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/*" element={<ProtectedLayout />} />
+            </Routes>
+          </BrowserRouter>
+        </ToastProvider>
+      </DataProvider>
     </AuthProvider>
   );
 }

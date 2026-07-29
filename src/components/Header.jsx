@@ -25,7 +25,7 @@ export default function Header({ showPoints = true }) {
                   {user.role === 'morador' ? 'Residente Prata' : user.role === 'lider' ? 'Líder Comunitário' : user.role === 'prefeitura' ? 'Prefeitura' : 'Empresa/IES'}
                 </div>
                 <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)' }}>
-                  {showPoints && user.role === 'morador' ? `✪ ${user.points || 450} pts` : user.name}
+                  {user.name}
                 </div>
               </div>
             </>
@@ -36,15 +36,39 @@ export default function Header({ showPoints = true }) {
           )}
         </div>
 
-        <button
-          onClick={() => setShowNotifications(!showNotifications)}
-          className="btn btn-outline"
-          style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', minHeight: 'auto', position: 'relative' }}
-          aria-label="Notificações"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>notifications</span>
-          <span style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--error)' }}></span>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {user && (
+            <button
+              onClick={() => navigate('/ranking')}
+              className="btn btn-sm"
+              style={{
+                borderRadius: '9999px',
+                padding: '6px 12px',
+                fontSize: '12px',
+                fontWeight: '800',
+                backgroundColor: 'var(--surface-container)',
+                color: 'var(--primary)',
+                border: '1px solid var(--surface-dim)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#d97706' }}>military_tech</span>
+              {user.points || 450} pts
+            </button>
+          )}
+
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="btn btn-outline"
+            style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', minHeight: 'auto', position: 'relative' }}
+            aria-label="Notificações"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>notifications</span>
+            <span style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--error)' }}></span>
+          </button>
+        </div>
       </header>
 
       {/* Notifications Drawer Dropdown */}

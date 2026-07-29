@@ -18,9 +18,10 @@ export default function BottomNav() {
 
   const tabs = [
     { path: homePath, label: 'Início', icon: 'home', isHome: true },
+    { path: '/ranking', label: 'Ranking', icon: 'military_tech' },
+    { path: '/reportar', label: 'Ação', icon: 'add_circle' },
     { path: '/alertas', label: 'Alertas', icon: 'notifications' },
-    { path: '/perfil', label: 'Perfil', icon: 'person' },
-    { path: '/reportar', label: 'Ação', icon: 'add_circle' }
+    { path: '/perfil', label: 'Perfil', icon: 'person' }
   ];
 
   return (

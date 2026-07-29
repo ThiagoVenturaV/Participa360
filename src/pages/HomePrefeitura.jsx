@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import Header from '../components/Header';
 import { useToast } from '../components/Toast';
+import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 import { useGsapPage } from '../utils/useGsapPage';
 import heatmapMapImg from '../assets/heatmap_map.jpg';
 
@@ -9,6 +11,8 @@ export default function HomePrefeitura() {
   useGsapPage(pageRef);
 
   const { showToast } = useToast();
+  const { problemas, validarProblema } = useData();
+
   const [dispatched, setDispatched] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('Todos');
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -18,6 +22,13 @@ export default function HomePrefeitura() {
     showToast('Equipe de emergência despachada para o Centro (Rua Principal)! 🚒⚡', 'success');
   };
 
+  const handleValidaIA = (prob) => {
+    validarProblema(prob.id);
+    showToast(`Relato "${prob.titulo}" validado pela IA e prefeitura! +50 pts concedidos ao cidadão! 🤖✅`, 'success');
+  };
+
+  const pendentesValidacao = problemas.filter((p) => !p.validado);
+
   return (
     <div ref={pageRef} className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
@@ -25,7 +36,7 @@ export default function HomePrefeitura() {
       <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
           <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Painel de Gestão da Prefeitura</h1>
-          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Supervisão em tempo real das operações cívicas.</p>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Supervisão em tempo real e validação por IA das demandas.</p>
         </div>
 
         {/* Stats Grid */}
@@ -55,29 +66,53 @@ export default function HomePrefeitura() {
             </div>
             <span className="badge badge-resolvido">+5% vs sem. passada</span>
           </div>
-
-          <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }} onClick={() => showToast('Taxa de engajamento populacional: 68%', 'info')}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>group</span>
-              </div>
-              <div>
-                <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>TAXA DE ENGAJAMENTO</div>
-                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>68%</div>
-              </div>
-            </div>
-            <span className="badge badge-em-analise">Estável</span>
-          </div>
         </div>
 
-        {/* Heatmap Section - STACKED (MAP FIRST, CARD BELOW) */}
+        {/* Validação de Relatos por IA */}
+        <section className="section" style={{ marginBottom: 0 }}>
+          <div className="section-header">
+            <h3 className="section-title" style={{ fontSize: '15px' }}>
+              Relatos em Fila para Validação de IA ({pendentesValidacao.length})
+            </h3>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '8px' }}>
+            {pendentesValidacao.length === 0 ? (
+              <div className="card" style={{ padding: '16px', fontSize: '13px', color: 'var(--outline)', textAlign: 'center' }}>
+                Todos os relatos enviados já foram validados!
+              </div>
+            ) : (
+              pendentesValidacao.map((p) => (
+                <div key={p.id} className="card" style={{ padding: '16px', borderRadius: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--primary)' }}>
+                      Criado por {p.criadoPor}
+                    </span>
+                    <span className="badge badge-em-analise">Aguardando IA</span>
+                  </div>
+                  <h4 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--on-surface)' }}>{p.titulo}</h4>
+                  <p style={{ fontSize: '12px', color: 'var(--outline)', lineHeight: '1.4' }}>{p.descricao}</p>
+
+                  <button
+                    onClick={() => handleValidaIA(p)}
+                    className="btn btn-secondary btn-sm btn-block"
+                    style={{ borderRadius: '9999px', marginTop: '4px' }}
+                  >
+                    Aprovar e Validar com IA 🤖✓
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Heatmap Section */}
         <section className="card" style={{ padding: '20px', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div className="section-header">
             <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--on-surface)' }}>Pontos Críticos e Relatos ao Vivo</h3>
             <span onClick={() => setShowFilterModal(true)} style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', cursor: 'pointer' }}>Filtros ({selectedFilter})</span>
           </div>
 
-          {/* 1. Map Image Container */}
           <div
             style={{
               width: '100%',
@@ -90,7 +125,6 @@ export default function HomePrefeitura() {
             }}
           ></div>
 
-          {/* 2. Critical Report Details Card (Stacked BELOW map image) */}
           <div
             style={{
               backgroundColor: 'var(--surface-container)',

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { useToast } from '../components/Toast';
 import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 import { useGsapPage } from '../utils/useGsapPage';
 
 import urbanBlueprintImg from '../assets/urban_blueprint.jpg';
@@ -15,6 +16,7 @@ export default function HomeMorador() {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const { user, setUser } = useAuth();
+  const { projetos, ranking } = useData();
 
   const [selectedPoll, setSelectedPoll] = useState(null);
   const [voted, setVoted] = useState(false);
@@ -29,6 +31,9 @@ export default function HomeMorador() {
     { author: 'Ana P.', text: 'Qual o prazo estimado de conclusão?' }
   ]);
   const [newComment1, setNewComment1] = useState('');
+
+  const userRankIndex = ranking.findIndex((r) => r.nome === user?.name || r.id === user?.id);
+  const myPosition = userRankIndex >= 0 ? userRankIndex + 1 : 4;
 
   const handleVote = (option) => {
     if (voted) return;
@@ -80,6 +85,80 @@ export default function HomeMorador() {
           Reportar Problema
         </button>
 
+        {/* Ranking Banner */}
+        <div
+          onClick={() => navigate('/ranking')}
+          className="hero-card"
+          style={{ padding: '18px 20px', borderRadius: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#c3c0ff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#fbbf24' }}>military_tech</span>
+              RANKING DO BAIRRO
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#ffffff', marginTop: '2px' }}>
+              Você está em <span style={{ color: '#fbbf24' }}>{myPosition}º lugar</span>
+            </div>
+            <div style={{ fontSize: '12px', color: '#c3c0ff', marginTop: '2px' }}>
+              Saldo: {user?.points || 450} pts acumulados
+            </div>
+          </div>
+          <button className="btn btn-sm" style={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#ffffff', border: 'none', borderRadius: '9999px', fontWeight: '700' }}>
+            VER 🏆
+          </button>
+        </div>
+
+        {/* Projetos da Comunidade em Etapas */}
+        <section className="section" style={{ marginBottom: 0 }}>
+          <div className="section-header">
+            <h2 className="section-title" style={{ fontSize: '16px' }}>Projetos da Comunidade</h2>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>{projetos.length} em andamento</span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
+            {projetos.slice(0, 2).map((proj) => {
+              const etapasConcluidas = proj.etapas.filter((e) => e.concluida).length;
+              const pct = Math.round((etapasConcluidas / proj.etapas.length) * 100);
+
+              return (
+                <div
+                  key={proj.id}
+                  onClick={() => navigate(`/projeto/${proj.id}`)}
+                  className="card"
+                  style={{ cursor: 'pointer', padding: '16px', borderRadius: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase' }}>
+                      {proj.bairro}
+                    </span>
+                    <span className={`badge ${proj.status === 'concluido' ? 'badge-resolvido' : 'badge-em-andamento'}`}>
+                      {proj.status === 'concluido' ? 'Concluído ✓' : 'Em Execução'}
+                    </span>
+                  </div>
+
+                  <h3 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)' }}>{proj.titulo}</h3>
+
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: '600', color: 'var(--outline)', marginBottom: '4px' }}>
+                      <span>Progresso por etapas: {etapasConcluidas}/{proj.etapas.length}</span>
+                      <span>{pct}%</span>
+                    </div>
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{ width: `${pct}%` }}></div>
+                    </div>
+                  </div>
+
+                  {proj.empresa && (
+                    <div style={{ fontSize: '11px', color: 'var(--secondary)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>domain</span> Patrocínio: {proj.empresa}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         {/* Rewards Preview */}
         <section className="section" style={{ marginBottom: 0 }}>
           <div className="section-header">
@@ -95,7 +174,7 @@ export default function HomeMorador() {
                 <span className="material-symbols-outlined">directions_bus</span>
               </div>
               <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Recarga VEM</div>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>300 pts</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>150 pts</div>
             </div>
 
             <div onClick={() => navigate('/marketplace')} className="card" style={{ cursor: 'pointer' }}>

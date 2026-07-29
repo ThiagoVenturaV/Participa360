@@ -1,13 +1,20 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { useToast } from '../components/Toast';
+import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 import { useGsapPage } from '../utils/useGsapPage';
 
 export default function HomeLider() {
   const pageRef = useRef(null);
   useGsapPage(pageRef);
 
+  const navigate = useNavigate();
   const { showToast } = useToast();
+  const { user } = useAuth();
+  const { projetos, createProjeto, toggleEtapaProjeto } = useData();
+
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [projectTitle, setProjectTitle] = useState('');
   const [projectLocation, setProjectLocation] = useState('');
@@ -18,6 +25,10 @@ export default function HomeLider() {
   const handleCreateProject = (e) => {
     e.preventDefault();
     if (!projectTitle) return;
+    createProjeto({
+      titulo: projectTitle,
+      bairro: projectLocation || 'Bairro do Recife'
+    });
     setShowNewProjectModal(false);
     setProjectTitle('');
     setProjectLocation('');
@@ -40,50 +51,99 @@ export default function HomeLider() {
 
       <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Bom dia, Elena.</h1>
-          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Veja o que está acontecendo no bairro Northside hoje.</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>
+            Painel da Liderança Comunitária
+          </h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>
+            Olá, {user?.name || 'Elena Santos'}. Gestão dos projetos e voluntários locais.
+          </p>
         </div>
 
+        {/* Action Button */}
         <button
           onClick={() => setShowNewProjectModal(true)}
           className="btn btn-primary btn-lg btn-block"
           style={{ gap: '8px', borderRadius: '16px', boxShadow: 'var(--shadow-ambient)' }}
         >
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add_circle</span>
-          NOVO PROJETO
+          NOVO PROJETO COMUNITÁRIO
         </button>
 
         {/* Metrics Grid */}
         <div className="grid-2">
-          <div className="card" style={{ cursor: 'pointer' }} onClick={() => showToast('1.248 moradores cadastrados no Northside', 'info')}>
+          <div className="card" style={{ cursor: 'pointer' }} onClick={() => navigate('/ranking')}>
             <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>trending_up</span> +12% esta semana
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>military_tech</span> Rank #2 Liderança
             </div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>1.248</div>
-            <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>MORADORES ATIVOS</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>1.200 pts</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>SEU ENGAJAMENTO</div>
           </div>
 
           <div className="card" style={{ cursor: 'pointer' }} onClick={() => showToast('342 voluntários prontos para convocação', 'info')}>
             <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>groups</span> Pronto para ajudar
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>groups</span> Ativos na Rede
             </div>
             <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>342</div>
             <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>VOLUNTÁRIOS</div>
           </div>
         </div>
 
-        {/* Campaign Banner */}
-        <div className="hero-card" style={{ padding: '20px', borderRadius: '24px' }}>
-          <div style={{ fontSize: '14px', fontWeight: '700', marginBottom: '4px' }}>Limpeza de fim de semana</div>
-          <div style={{ fontSize: '12px', color: '#c3c0ff', marginBottom: '12px' }}>Iniciativa Parque Riverside</div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: '600', color: '#c3c0ff', marginBottom: '4px' }}>
-            <span>Vagas de voluntários preenchidas</span>
-            <span>45/50</span>
+        {/* Real Projects Checklist section */}
+        <section className="section" style={{ marginBottom: 0 }}>
+          <div className="section-header">
+            <h2 className="section-title" style={{ fontSize: '16px' }}>Gestão de Etapas de Projetos</h2>
           </div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: '90%' }}></div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '8px' }}>
+            {projetos.map((proj) => {
+              const concluídas = proj.etapas.filter((e) => e.concluida).length;
+
+              return (
+                <div key={proj.id} className="card" style={{ padding: '16px', borderRadius: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--on-surface)' }}>{proj.titulo}</h3>
+                    <span className="badge badge-em-andamento" style={{ fontSize: '10px' }}>
+                      {concluídas}/{proj.etapas.length} etapas
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {proj.etapas.map((etapa) => (
+                      <div
+                        key={etapa.id}
+                        onClick={() => {
+                          toggleEtapaProjeto(proj.id, etapa.id);
+                          showToast(`Etapa "${etapa.titulo}" atualizada!`, 'info');
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          padding: '8px 10px',
+                          borderRadius: '12px',
+                          backgroundColor: etapa.concluida ? '#ecfdf5' : 'var(--surface-container)',
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '18px', color: etapa.concluida ? 'var(--secondary)' : 'var(--outline)' }}>
+                          {etapa.concluida ? 'check_box' : 'check_box_outline_blank'}
+                        </span>
+                        <span style={{ textDecoration: etapa.concluida ? 'line-through' : 'none', color: etapa.concluida ? 'var(--secondary)' : 'var(--on-surface)', fontWeight: '600' }}>
+                          {etapa.titulo}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button onClick={() => navigate(`/projeto/${proj.id}`)} className="btn btn-outline btn-sm btn-block" style={{ borderRadius: '9999px', marginTop: '4px' }}>
+                    Ver Detalhes do Projeto →
+                  </button>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        </section>
 
         {/* Urgent Tasks */}
         <section className="card" style={{ padding: '20px', borderRadius: '24px' }}>
