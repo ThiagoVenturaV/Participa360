@@ -2,7 +2,19 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/api/auth/:action", "destination": "/api/auth.js?action=:action" },
+    { "source": "/api/reports/:id", "destination": "/api/reports.js?id=:id" },
+    { "source": "/api/reports", "destination": "/api/reports.js" },
+    { "source": "/api/rewards/:action", "destination": "/api/rewards.js?action=:action" },
+    { "source": "/api/rewards", "destination": "/api/rewards.js" },
+    { "source": "/api/projects/:id", "destination": "/api/projects.js?id=:id" },
+    { "source": "/api/projects", "destination": "/api/projects.js" },
+    { "source": "/api/polls/:action", "destination": "/api/polls.js?action=:action" },
+    { "source": "/api/polls", "destination": "/api/polls.js" },
+    { "source": "/api/alerts", "destination": "/api/alerts.js" },
+    { "source": "/api/gamification/:action", "destination": "/api/gamification.js?action=:action" },
+    { "source": "/api/stats/:action", "destination": "/api/stats.js?action=:action" },
+    { "source": "/api/ai/:action", "destination": "/api/ai.js?action=:action" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
