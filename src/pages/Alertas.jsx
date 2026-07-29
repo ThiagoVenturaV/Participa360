@@ -43,7 +43,7 @@ export default function Alertas() {
 
         {/* Filter chips */}
         <div className="scroll-h">
-          {['Todos', 'Meus Relatos', 'Voluntariado', 'Bairro'].map((f) => (
+          {['Todos', 'Relatos', 'Voluntariado', 'Bairro'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
