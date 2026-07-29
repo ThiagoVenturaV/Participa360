@@ -2,6 +2,13 @@ import React, { useEffect } from 'react';
 
 export default function LibrasWidgetComponent() {
   useEffect(() => {
+    // Check if VLibras needs initialization on React mount
+    if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+      try {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      } catch (e) {}
+    }
+
     // Universal Accessibility Toolbar (starts collapsed, opens on click, closes with X)
     let accContainer = document.getElementById('p360-acc-container');
     if (!accContainer) {
@@ -10,7 +17,7 @@ export default function LibrasWidgetComponent() {
       accContainer.style.cssText = `
         position: fixed;
         right: 0;
-        top: 40%;
+        top: 35%;
         transform: translateY(-50%);
         z-index: 99999;
         display: flex;

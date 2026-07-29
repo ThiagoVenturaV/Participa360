@@ -66,62 +66,55 @@ export default function HomePrefeitura() {
           </div>
         </div>
 
-        {/* Heatmap Section */}
-        <section className="card" style={{ padding: '20px', borderRadius: '24px' }}>
+        {/* Heatmap Section - STACKED (MAP FIRST, CARD BELOW) */}
+        <section className="card" style={{ padding: '20px', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div className="section-header">
             <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--on-surface)' }}>Pontos Críticos e Relatos ao Vivo</h3>
             <span onClick={() => setShowFilterModal(true)} style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', cursor: 'pointer' }}>Filtros ({selectedFilter})</span>
           </div>
 
+          {/* 1. Map Image Container */}
           <div
             style={{
               width: '100%',
-              minHeight: '340px',
-              borderRadius: '20px',
+              height: '200px',
+              borderRadius: '16px',
               backgroundImage: `url(${heatmapMapImg})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              border: '1px solid var(--surface-dim)'
+            }}
+          ></div>
+
+          {/* 2. Critical Report Details Card (Stacked BELOW map image) */}
+          <div
+            style={{
+              backgroundColor: 'var(--surface-container)',
+              borderRadius: '16px',
+              padding: '16px',
               border: '1px solid var(--surface-dim)',
-              position: 'relative',
               display: 'flex',
               flexDirection: 'column',
-              justify: 'flex-end',
-              padding: '16px',
-              marginTop: '12px',
-              overflow: 'hidden'
+              gap: '10px'
             }}
           >
-            <div
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(12px)',
-                borderRadius: '16px',
-                padding: '14px',
-                boxShadow: 'var(--shadow-elevated)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                width: '100%'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: dispatched ? 'var(--secondary)' : 'var(--error)', display: 'inline-block' }}></span>
-                <span style={{ fontSize: '13px', fontWeight: '800', color: 'var(--on-surface)' }}>
-                  {dispatched ? 'Em Atendimento: Equipe Despachada' : 'Crítico: Infraestrutura'}
-                </span>
-              </div>
-              <p style={{ fontSize: '12px', color: 'var(--on-surface)', lineHeight: '1.4' }}>
-                Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.
-              </p>
-              <button
-                onClick={handleDispatch}
-                disabled={dispatched}
-                className={`btn ${dispatched ? 'btn-success' : 'btn-primary'} btn-block`}
-                style={{ borderRadius: '9999px', marginTop: '4px', fontSize: '13px', fontWeight: '700' }}
-              >
-                {dispatched ? 'EQUIPE EM DESLOCAMENTO ✓' : 'Despachar Equipe'}
-              </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: dispatched ? 'var(--secondary)' : 'var(--error)', display: 'inline-block' }}></span>
+              <span style={{ fontSize: '13px', fontWeight: '800', color: 'var(--on-surface)' }}>
+                {dispatched ? 'Em Atendimento: Equipe Despachada' : 'Crítico: Infraestrutura'}
+              </span>
             </div>
+            <p style={{ fontSize: '12px', color: 'var(--on-surface)', lineHeight: '1.5' }}>
+              Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.
+            </p>
+            <button
+              onClick={handleDispatch}
+              disabled={dispatched}
+              className={`btn ${dispatched ? 'btn-success' : 'btn-primary'} btn-block`}
+              style={{ borderRadius: '9999px', marginTop: '4px', fontSize: '13px', fontWeight: '700' }}
+            >
+              {dispatched ? 'EQUIPE EM DESLOCAMENTO ✓' : 'Despachar Equipe'}
+            </button>
           </div>
         </section>
       </main>
