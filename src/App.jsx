@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './components/Toast';
 
 import BottomNav from './components/BottomNav';
 import VoiceAgent from './components/VoiceAgent';
+import LibrasWidgetComponent from './components/LibrasWidgetComponent';
+import PWATutorialModal from './components/PWATutorialModal';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -23,6 +25,21 @@ import Perfil from './pages/Perfil';
 
 function ProtectedLayout() {
   const { user, token, loading } = useAuth();
+  const [showPWATutorial, setShowPWATutorial] = useState(false);
+
+  useEffect(() => {
+    // Show PWA tutorial on first visit if not installed
+    const hasSeenPWATutorial = localStorage.getItem('p360_pwa_tutorial_seen');
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    if (!hasSeenPWATutorial && !isStandalone) {
+      const timer = setTimeout(() => {
+        setShowPWATutorial(true);
+        localStorage.setItem('p360_pwa_tutorial_seen', 'true');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -50,12 +67,14 @@ function ProtectedLayout() {
         <Route path="/meus-relatos" element={<MeusRelatos />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/projeto/:id" element={<DetalhesProjeto />} />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/perfil" element={<Perfil onOpenPWATutorial={() => setShowPWATutorial(true)} />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
 
       <BottomNav />
       <VoiceAgent />
+      <LibrasWidgetComponent />
+      <PWATutorialModal isOpen={showPWATutorial} onClose={() => setShowPWATutorial(false)} />
     </>
   );
 }

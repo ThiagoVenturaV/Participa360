@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-export default function Perfil() {
+export default function Perfil({ onOpenPWATutorial }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -55,6 +55,13 @@ export default function Perfil() {
           <button onClick={() => navigate('/marketplace')} className="list-item" style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', justifyContent: 'space-between' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', fontWeight: '700' }}>
               <span className="material-symbols-outlined" style={{ color: 'var(--secondary)' }}>card_giftcard</span> Minhas Recompensas
+            </span>
+            <span className="material-symbols-outlined" style={{ color: 'var(--outline)' }}>chevron_right</span>
+          </button>
+
+          <button onClick={onOpenPWATutorial} className="list-item" style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', justifyContent: 'space-between' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', fontWeight: '700' }}>
+              <span className="material-symbols-outlined" style={{ color: '#b45309' }}>install_mobile</span> Instalar App (Tutorial PWA)
             </span>
             <span className="material-symbols-outlined" style={{ color: 'var(--outline)' }}>chevron_right</span>
           </button>
