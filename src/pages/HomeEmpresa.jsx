@@ -33,7 +33,7 @@ export default function HomeEmpresa() {
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
               <span className="material-symbols-outlined">payments</span>
             </div>
-            <div style={{ fontSize: '22px', fontWeight: '900', color: 'var(--on-surface)' }}>US$ 450 mil</div>
+            <div style={{ fontSize: '22px', fontWeight: '900', color: 'var(--on-surface)' }}>R$ 450 mil</div>
             <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>INVESTIMENTO TOTAL</div>
           </div>
         </div>

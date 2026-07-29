@@ -94,7 +94,7 @@ export default function HomeMorador() {
               <div style={{ width: '40px', height: '40px', borderRadius: '12px', backgroundColor: '#fffbe3', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
                 <span className="material-symbols-outlined">directions_bus</span>
               </div>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Passe Livre</div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Recarga VEM</div>
               <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>300 pts</div>
             </div>
 
@@ -102,8 +102,8 @@ export default function HomeMorador() {
               <div style={{ width: '40px', height: '40px', borderRadius: '12px', backgroundColor: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
                 <span className="material-symbols-outlined">park</span>
               </div>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Plantio de Árvore</div>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>500 pts</div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Apadrinhe uma Árvore</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>300 pts</div>
             </div>
           </div>
         </section>
@@ -119,7 +119,7 @@ export default function HomeMorador() {
           </h3>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {['Distrito Norte', 'Centro da Cidade'].map((option) => (
+            {['Avenida Cais do Apolo', 'Avenida Visconde de Guararapes'].map((option) => (
               <button
                 key={option}
                 onClick={() => handleVote(option)}
