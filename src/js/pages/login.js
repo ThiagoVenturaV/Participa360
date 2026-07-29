@@ -7,7 +7,7 @@ export function render(container) {
     <div class="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-900 p-6 animate-fade-in">
       <div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 animate-slide-up stagger-1">
         <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">Participa 360</h1>
+          <img src="/logo.png" alt="Pilar 360 Logo" class="max-w-[200px] mx-auto mb-2 object-contain" />
           <p class="text-slate-500 dark:text-slate-400">Transforme sua cidade</p>
         </div>
         

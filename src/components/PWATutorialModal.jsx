@@ -24,7 +24,7 @@ export default function PWATutorialModal({ isOpen, onClose }) {
       window.deferredPrompt.prompt();
       const { outcome } = await window.deferredPrompt.userChoice;
       if (outcome === 'accepted') {
-        showToast('Participa 360 instalado com sucesso na sua tela inicial! 🎉', 'success');
+        showToast('Pilar 360 instalado com sucesso na sua tela inicial! 🎉', 'success');
         window.deferredPrompt = null;
         onClose();
       }
@@ -44,7 +44,7 @@ export default function PWATutorialModal({ isOpen, onClose }) {
               {deviceType === 'ios' ? 'phone_iphone' : deviceType === 'android' ? 'adb' : 'install_desktop'}
             </span>
             <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--on-surface)' }}>
-              Instalar Participa 360
+              Instalar Pilar 360
             </h3>
           </div>
           <button onClick={onClose} style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--outline)' }}>
@@ -56,7 +56,7 @@ export default function PWATutorialModal({ isOpen, onClose }) {
           <div style={{ textAlign: 'center', padding: '16px', backgroundColor: '#ecfdf5', borderRadius: '16px', color: 'var(--secondary)', marginBottom: '16px' }}>
             <span className="material-symbols-outlined" style={{ fontSize: '32px', marginBottom: '4px' }}>check_circle</span>
             <div style={{ fontSize: '14px', fontWeight: '800' }}>Aplicativo Já Instalado!</div>
-            <div style={{ fontSize: '12px', marginTop: '4px' }}>Você está usando a versão PWA instalada do Participa 360.</div>
+            <div style={{ fontSize: '12px', marginTop: '4px' }}>Você está usando a versão PWA instalada do Pilar 360.</div>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '20px' }}>

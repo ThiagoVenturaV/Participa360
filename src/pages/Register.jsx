@@ -30,8 +30,8 @@ export default function Register() {
     <div className="page page-login animate-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
       <div className="card animate-slide-up stagger-1" style={{ maxWidth: '420px', width: '100%', padding: '32px', borderRadius: '24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '20px', backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', padding: '8px', boxShadow: 'var(--shadow-ambient)', border: '1px solid var(--surface-dim)' }}>
-            <img src="/favicon.png" alt="Participa 360 Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+            <img src="/logo.png" alt="Pilar 360 Logo" style={{ width: '100%', maxWidth: '200px', height: 'auto', objectFit: 'contain' }} />
           </div>
           <h1 style={{ fontSize: '22px', fontWeight: '800', color: 'var(--on-surface)', marginBottom: '4px' }}>Criar Conta Morador</h1>
           <p style={{ fontSize: '13px', color: 'var(--outline)' }}>Faça a diferença na sua comunidade</p>

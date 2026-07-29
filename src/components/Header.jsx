@@ -32,9 +32,7 @@ export default function Header({ showPoints = true }) {
               </div>
             </>
           ) : (
-            <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--primary)' }}>
-              Participa 360
-            </h1>
+            <img src="/logo.png" alt="Pilar 360" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
           )}
         </div>
 

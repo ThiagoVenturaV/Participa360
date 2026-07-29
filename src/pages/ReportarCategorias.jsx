@@ -23,7 +23,7 @@ export default function ReportarCategorias() {
         <button onClick={() => navigate(-1)} className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto' }}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>Participa 360</h1>
+        <h1 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>Pilar 360</h1>
         <div style={{ width: '24px' }}></div>
       </header>
 

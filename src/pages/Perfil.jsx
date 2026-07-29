@@ -30,7 +30,7 @@ export default function Perfil({ onOpenPWATutorial }) {
           </div>
           <div>
             <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>{user?.name || 'Usuário'}</h2>
-            <div style={{ fontSize: '12px', color: 'var(--outline)', marginTop: '2px' }}>{user?.email || 'usuario@participa360.com'}</div>
+            <div style={{ fontSize: '12px', color: 'var(--outline)', marginTop: '2px' }}>{user?.email || 'usuario@pilar360.com'}</div>
           </div>
           <span className="badge badge-em-execucao" style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             {role === 'morador' ? 'Morador • Residente Prata' : role === 'lider' ? 'Líder Comunitário' : role === 'prefeitura' ? 'Gestão Municipal • Prefeitura' : 'Empresa ESG / IES'}
