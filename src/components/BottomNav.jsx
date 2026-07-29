@@ -1,12 +1,23 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+
+  const getRoleHome = () => {
+    if (user?.role === 'lider') return '/home-lider';
+    if (user?.role === 'prefeitura') return '/home-prefeitura';
+    if (user?.role === 'empresa') return '/home-empresa';
+    return '/home';
+  };
+
+  const homePath = getRoleHome();
 
   const tabs = [
-    { path: '/home', label: 'Início', icon: 'home' },
+    { path: homePath, label: 'Início', icon: 'home', isHome: true },
     { path: '/alertas', label: 'Alertas', icon: 'notifications' },
     { path: '/perfil', label: 'Perfil', icon: 'person' },
     { path: '/reportar', label: 'Ação', icon: 'add_circle' }
@@ -15,10 +26,12 @@ export default function BottomNav() {
   return (
     <nav className="bottom-nav">
       {tabs.map((tab) => {
-        const isActive = location.pathname === tab.path;
+        const isHomeActive = tab.isHome && ['/home', '/home-lider', '/home-prefeitura', '/home-empresa'].includes(location.pathname);
+        const isActive = isHomeActive || location.pathname === tab.path;
+
         return (
           <button
-            key={tab.path}
+            key={tab.label}
             onClick={() => navigate(tab.path)}
             className={`bottom-nav-item ${isActive ? 'active' : ''}`}
             style={{ border: 'none', background: 'none', cursor: 'pointer' }}

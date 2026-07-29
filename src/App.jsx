@@ -53,6 +53,13 @@ function ProtectedLayout() {
     return <Navigate to="/login" replace />;
   }
 
+  const getRoleHome = () => {
+    if (user?.role === 'lider') return '/home-lider';
+    if (user?.role === 'prefeitura') return '/home-prefeitura';
+    if (user?.role === 'empresa') return '/home-empresa';
+    return '/home';
+  };
+
   return (
     <>
       <Routes>
@@ -68,7 +75,7 @@ function ProtectedLayout() {
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/projeto/:id" element={<DetalhesProjeto />} />
         <Route path="/perfil" element={<Perfil onOpenPWATutorial={() => setShowPWATutorial(true)} />} />
-        <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to={getRoleHome()} replace />} />
       </Routes>
 
       <BottomNav />
