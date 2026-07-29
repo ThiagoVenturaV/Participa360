@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { useToast } from '../components/Toast';
 import { useAuth } from '../context/AuthContext';
+import { useGsapPage } from '../utils/useGsapPage';
 
 import urbanBlueprintImg from '../assets/urban_blueprint.jpg';
 import avatarMariaImg from '../assets/avatar_maria.jpg';
 
 export default function HomeMorador() {
+  const pageRef = useRef(null);
+  useGsapPage(pageRef);
+
   const navigate = useNavigate();
   const { showToast } = useToast();
   const { user, setUser } = useAuth();
@@ -62,7 +66,7 @@ export default function HomeMorador() {
   };
 
   return (
-    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
+    <div ref={pageRef} className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header />
 
       <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

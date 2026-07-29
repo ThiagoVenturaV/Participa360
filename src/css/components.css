@@ -10,16 +10,25 @@
   border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, box-shadow 0.2s;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.96);
 }
 
 .btn-primary {
   background-color: var(--primary);
   color: var(--on-primary);
+  box-shadow: 0 4px 14px rgba(31, 16, 142, 0.2);
 }
 .btn-primary:hover {
   background-color: var(--primary-container);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(31, 16, 142, 0.3);
 }
 
 .btn-secondary {
@@ -27,15 +36,18 @@
   color: var(--primary);
 }
 .btn-secondary:hover {
-  background-color: rgba(31, 16, 142, 0.15);
+  background-color: rgba(31, 16, 142, 0.18);
+  transform: translateY(-1px);
 }
 
 .btn-success {
   background-color: var(--secondary);
   color: var(--on-primary);
+  box-shadow: 0 4px 14px rgba(0, 108, 73, 0.2);
 }
 .btn-success:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
 .btn-outline {
@@ -45,6 +57,7 @@
 }
 .btn-outline:hover {
   background-color: var(--surface-dim);
+  border-color: var(--primary);
 }
 
 .btn-ghost {
@@ -76,7 +89,21 @@
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
   box-shadow: var(--shadow-ambient);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px -4px rgba(55, 48, 163, 0.12);
+}
+
+.hero-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+.hero-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px -6px rgba(31, 16, 142, 0.35);
+}
+
 .card-elevated {
   box-shadow: var(--shadow-elevated);
 }
@@ -106,11 +133,18 @@
   font: var(--text-label-md);
   cursor: pointer;
   border: none;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chip:hover {
+  transform: scale(1.04);
+}
+.chip:active {
+  transform: scale(0.95);
 }
 .chip-active {
   background-color: var(--primary);
   color: var(--on-primary);
+  box-shadow: 0 4px 12px rgba(31, 16, 142, 0.25);
 }
 .chip-filter-group {
   display: flex;
@@ -133,10 +167,11 @@
   display: flex;
   justify-content: space-around;
   backdrop-filter: blur(20px);
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.88);
   border-top: 1px solid var(--surface-dim);
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 100;
+  box-shadow: 0 -4px 20px rgba(11, 28, 48, 0.05);
 }
 .bottom-nav-item {
   display: flex;
@@ -149,7 +184,10 @@
   color: var(--outline);
   text-decoration: none;
   font: var(--text-label-sm);
-  transition: color 0.2s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+}
+.bottom-nav-item:active {
+  transform: scale(0.9);
 }
 .bottom-nav-item.active {
   color: var(--primary);
@@ -172,6 +210,10 @@
   height: 40px;
   border-radius: var(--radius-full);
   object-fit: cover;
+  transition: transform 0.2s;
+}
+.header-avatar:hover {
+  transform: scale(1.08);
 }
 
 /* Progress Bars */
@@ -186,7 +228,7 @@
   height: 100%;
   background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
   border-radius: var(--radius-full);
-  transition: width 0.3s ease;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Points Badge */
@@ -218,12 +260,13 @@
   min-height: 44px;
   font: var(--text-body-md);
   background: transparent;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 .input-field:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(31, 16, 142, 0.15);
+  transform: translateY(-1px);
 }
 .textarea {
   min-height: 120px;
@@ -234,8 +277,8 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(11, 28, 48, 0.6);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -249,7 +292,7 @@
   width: 100%;
   padding: var(--spacing-lg);
   margin: auto;
-  box-shadow: var(--shadow-elevated);
+  box-shadow: 0 20px 50px rgba(11, 28, 48, 0.25);
 }
 
 /* Toast */
@@ -262,9 +305,9 @@
   color: var(--surface);
   border-radius: var(--radius-md);
   padding: var(--spacing-sm) var(--spacing-md);
-  box-shadow: var(--shadow-default);
+  box-shadow: 0 10px 30px rgba(11, 28, 48, 0.2);
   z-index: 1001;
-  animation: slideInRight 0.3s ease-out;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Status Badges */
@@ -274,6 +317,10 @@
   border-radius: var(--radius-full);
   font: var(--text-label-sm);
   font-weight: 600;
+  transition: transform 0.2s ease;
+}
+.badge:hover {
+  transform: scale(1.05);
 }
 .badge-urgente {
   background-color: var(--error);
@@ -302,14 +349,21 @@
   border-radius: 50%;
   background-color: var(--primary);
   color: #ffffff;
-  box-shadow: var(--shadow-elevated);
+  box-shadow: 0 8px 24px rgba(31, 16, 142, 0.35);
   z-index: 100;
-  transition: all 0.3s;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
+}
+.fab-voice:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(31, 16, 142, 0.45);
+}
+.fab-voice:active {
+  transform: scale(0.94);
 }
 .fab-voice.listening {
   background-color: var(--error);
@@ -334,7 +388,7 @@
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-elevated);
   transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 999;
 }
 .voice-overlay.active {
@@ -383,6 +437,10 @@
   align-items: center;
   padding: var(--spacing-md);
   border-bottom: 1px solid var(--surface-dim);
+  transition: background-color 0.2s;
+}
+.list-item:hover {
+  background-color: var(--surface-container);
 }
 .list-item:last-child {
   border-bottom: none;

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Header from '../components/Header';
 import { useToast } from '../components/Toast';
+import { useGsapPage } from '../utils/useGsapPage';
 
 export default function HomeLider() {
+  const pageRef = useRef(null);
+  useGsapPage(pageRef);
+
   const { showToast } = useToast();
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [projectTitle, setProjectTitle] = useState('');
@@ -31,7 +35,7 @@ export default function HomeLider() {
   };
 
   return (
-    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
+    <div ref={pageRef} className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
       <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
