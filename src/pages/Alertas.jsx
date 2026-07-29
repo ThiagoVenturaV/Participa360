@@ -11,7 +11,7 @@ export default function Alertas() {
       title: 'Interdição na Rua das Flores',
       desc: 'Devido a obras emergenciais na rede de esgoto, a Rua das Flores estará interditada nos próximos 2 dias. Evite a região.',
       time: 'Há 10 min',
-      color: 'border-l-4 border-red-500'
+      border: '4px solid var(--error)'
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ export default function Alertas() {
       title: 'Buraco na calçada consertado',
       desc: 'O seu relato sobre o buraco na Av. Central foi marcado como resolvido pela prefeitura. Obrigado por contribuir!',
       time: '2h atrás',
-      color: 'border-l-4 border-emerald-500'
+      border: '4px solid var(--secondary)'
     },
     {
       id: 3,
@@ -27,29 +27,27 @@ export default function Alertas() {
       title: 'Mutirão de Limpeza do Parque',
       desc: 'Junte-se a nós neste sábado para revitalizar o Parque das Águas. Precisamos de mãos extras para plantio de mudas.',
       time: 'Ontem',
-      color: 'border-l-4 border-indigo-500'
+      border: '4px solid var(--primary)'
     }
   ];
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
-      <main className="px-5 pt-3 space-y-4">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div>
-          <h1 className="text-xl font-extrabold text-[#0b1c30]">Alertas e Notificações</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Mantenha-se atualizado sobre sua comunidade.</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Alertas e Notificações</h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Mantenha-se atualizado sobre sua comunidade.</p>
         </div>
 
         {/* Filter chips */}
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="scroll-h">
           {['Todos', 'Meus Relatos', 'Voluntariado', 'Bairro'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                filter === f ? 'bg-[#1f108e] text-white shadow-sm' : 'bg-white text-slate-600 border border-slate-200'
-              }`}
+              className={`chip ${filter === f ? 'chip-active' : ''}`}
             >
               {f}
             </button>
@@ -57,17 +55,17 @@ export default function Alertas() {
         </div>
 
         {/* Alerts list */}
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {alerts.map((item) => (
-            <div key={item.id} className={`bg-white rounded-2xl p-4 border border-slate-100 shadow-sm ${item.color} space-y-2`}>
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+            <div key={item.id} className="card" style={{ borderLeft: item.border, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)' }}>
                   {item.type}
                 </span>
-                <span className="text-[10px] text-slate-400">{item.time}</span>
+                <span style={{ fontSize: '10px', color: 'var(--outline)' }}>{item.time}</span>
               </div>
-              <h3 className="text-sm font-bold text-[#0b1c30]">{item.title}</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
+              <h3 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)' }}>{item.title}</h3>
+              <p style={{ fontSize: '12px', color: 'var(--outline)', lineHeight: '1.5' }}>{item.desc}</p>
             </div>
           ))}
         </div>

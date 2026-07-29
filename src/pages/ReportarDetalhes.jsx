@@ -47,33 +47,32 @@ export default function ReportarDetalhes() {
   };
 
   return (
-    <div className="pb-28 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
-      <header className="flex items-center justify-between px-5 py-4 bg-white border-b border-slate-100">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="text-slate-600">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <header className="header" style={{ borderBottom: '1px solid var(--surface-dim)', backgroundColor: '#ffffff' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button onClick={() => navigate(-1)} className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto' }}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h1 className="text-lg font-bold text-[#0b1c30]">Detalhes do Problema</h1>
+          <h1 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>Detalhes do Problema</h1>
         </div>
-        <span className="px-3 py-1 rounded-full bg-emerald-50 text-[#006c49] text-xs font-bold border border-emerald-200">
+        <span className="badge badge-resolvido" style={{ fontSize: '11px' }}>
           +10 pts por relatar
         </span>
       </header>
 
-      <main className="px-5 pt-4 space-y-5">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+          <label className="input-label" style={{ marginBottom: '8px', display: 'block' }}>
             Categoria Selecionada
           </label>
-          <div className="flex gap-2 overflow-x-auto pb-1">
+          <div className="scroll-h">
             {['Buraco', 'Iluminação Pública', 'Coleta de Lixo', 'Vandalismo'].map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                  category === cat ? 'bg-[#1f108e] text-white shadow-md' : 'bg-white text-slate-600 border border-slate-200'
-                }`}
+                className={`chip ${category === cat ? 'chip-active' : ''}`}
+                style={{ fontWeight: '700' }}
               >
                 {cat}
               </button>
@@ -83,39 +82,48 @@ export default function ReportarDetalhes() {
 
         {/* Photo evidence upload box */}
         <div>
-          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+          <label className="input-label" style={{ marginBottom: '8px', display: 'block' }}>
             Evidência (Obrigatório)
           </label>
           <button
             type="button"
             onClick={() => setPhotoAdded(!photoAdded)}
-            className={`w-full h-36 rounded-3xl border-2 border-dashed flex flex-col items-center justify-center p-4 transition-all ${
-              photoAdded ? 'border-emerald-500 bg-emerald-50 text-emerald-800' : 'border-indigo-200 bg-white text-indigo-900 hover:bg-indigo-50'
-            }`}
+            style={{
+              width: '100%',
+              height: '140px',
+              borderRadius: '24px',
+              border: photoAdded ? '2px solid var(--secondary)' : '2px dashed var(--outline-variant)',
+              backgroundColor: photoAdded ? 'rgba(0, 108, 73, 0.05)' : '#ffffff',
+              color: photoAdded ? 'var(--secondary)' : 'var(--primary)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
           >
-            <span className="material-symbols-outlined text-3xl mb-1">
+            <span className="material-symbols-outlined" style={{ fontSize: '32px', marginBottom: '4px' }}>
               {photoAdded ? 'check_circle' : 'photo_camera'}
             </span>
-            <span className="text-xs font-bold">
+            <span style={{ fontSize: '12px', fontWeight: '700' }}>
               {photoAdded ? 'Foto Anexada ✓' : 'Toque para Adicionar Foto'}
             </span>
           </button>
         </div>
 
         {/* Description textarea */}
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Descrição
-            </label>
+        <div className="input-group">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <label className="input-label" style={{ margin: 0 }}>Descrição</label>
             <button
               type="button"
               onClick={() => setRecording(!recording)}
-              className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 transition-all ${
-                recording ? 'bg-red-500 text-white animate-pulse' : 'bg-indigo-100 text-[#1f108e]'
-              }`}
+              className={`btn btn-sm ${recording ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ backgroundColor: recording ? 'var(--error)' : 'rgba(31, 16, 142, 0.1)', color: recording ? '#fff' : 'var(--primary)' }}
             >
-              <span className="material-symbols-outlined text-sm">mic</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>mic</span>
               {recording ? 'Gravando...' : 'Gravar Áudio'}
             </button>
           </div>
@@ -124,33 +132,32 @@ export default function ReportarDetalhes() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Por favor, descreva o problema em detalhes. O que exatamente está errado?"
-            className="w-full p-4 rounded-2xl border border-slate-200 bg-white focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-xs text-slate-900 resize-none"
+            className="input-field textarea"
           ></textarea>
         </div>
 
         {/* Location preview */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-indigo-100 text-[#1f108e] flex items-center justify-center">
+        <div className="card" style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span className="material-symbols-outlined">location_on</span>
             </div>
             <div>
-              <div className="text-xs font-bold text-slate-900">123 Rua Principal</div>
-              <div className="text-[10px] text-slate-400">Coordenadas: -8.0476° N, -34.8770° W</div>
+              <div style={{ fontSize: '13px', fontWeight: '700' }}>123 Rua Principal</div>
+              <div style={{ fontSize: '10px', color: 'var(--outline)' }}>Coordenadas: -8.0476° N, -34.8770° W</div>
             </div>
           </div>
-          <span className="text-xs font-bold text-indigo-700 cursor-pointer">Atualizar</span>
+          <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', cursor: 'pointer' }}>Atualizar</span>
         </div>
 
         {/* Submit CTA */}
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full py-4 px-6 rounded-full bg-[#1f108e] text-white font-extrabold text-base flex items-center justify-center gap-2 shadow-xl shadow-indigo-200 hover:bg-indigo-950 active:scale-98 transition-all"
+          className="btn btn-primary btn-lg btn-block"
+          style={{ gap: '8px', borderRadius: '9999px', marginTop: '12px' }}
         >
-          {submitting ? (
-            <span className="material-symbols-outlined animate-spin text-xl">sync</span>
-          ) : (
+          {submitting ? 'Enviando...' : (
             <>
               Enviar Relato
               <span className="material-symbols-outlined">send</span>

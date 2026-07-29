@@ -13,59 +13,60 @@ export default function Perfil() {
   };
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
-      <main className="px-5 pt-4 space-y-5">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* User Card */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center space-y-3">
-          <div className="w-20 h-20 rounded-full bg-indigo-100 text-[#1f108e] flex items-center justify-center font-bold text-2xl mx-auto border-4 border-indigo-200 shadow-inner">
+        <div className="card" style={{ textAlign: 'center', padding: '24px', borderRadius: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '28px', border: '4px solid var(--primary-fixed)', boxShadow: 'var(--shadow-ambient)' }}>
             {user?.name?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div>
-            <h2 className="text-lg font-extrabold text-[#0b1c30]">{user?.name || 'Usuário'}</h2>
-            <div className="text-xs text-slate-500">{user?.email || 'usuario@participa360.com'}</div>
+            <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>{user?.name || 'Usuário'}</h2>
+            <div style={{ fontSize: '12px', color: 'var(--outline)', marginTop: '2px' }}>{user?.email || 'usuario@participa360.com'}</div>
           </div>
-          <span className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-[#1f108e] text-xs font-bold uppercase tracking-wider">
+          <span className="badge badge-em-execucao" style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             {user?.role === 'morador' ? 'Morador • Residente Prata' : user?.role === 'lider' ? 'Líder Comunitário' : user?.role === 'prefeitura' ? 'Prefeitura' : 'Empresa / IES'}
           </span>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm text-center">
-            <div className="text-2xl font-black text-[#0b1c30]">{user?.points || 450}</div>
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">PONTOS CÍVICOS</div>
+        <div className="grid-2">
+          <div className="card card-metric">
+            <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>{user?.points || 450}</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>PONTOS CÍVICOS</div>
           </div>
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm text-center">
-            <div className="text-2xl font-black text-[#006c49]">Nível 2</div>
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">CIDADÃO ENGAJADO</div>
+          <div className="card card-metric">
+            <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--secondary)' }}>Nível 2</div>
+            <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>CIDADÃO ENGAJADO</div>
           </div>
         </div>
 
         {/* Menu list */}
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden divide-y divide-slate-100 text-xs font-bold text-slate-700">
-          <button onClick={() => navigate('/meus-relatos')} className="w-full p-4 text-left flex justify-between items-center hover:bg-slate-50">
-            <span className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-indigo-600">history</span> Meus Relatos
+        <div className="card" style={{ padding: 0, overflow: 'hidden', borderRadius: '24px' }}>
+          <button onClick={() => navigate('/meus-relatos')} className="list-item" style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', justifyContent: 'space-between' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', fontWeight: '700' }}>
+              <span className="material-symbols-outlined" style={{ color: 'var(--primary)' }}>history</span> Meus Relatos
             </span>
-            <span className="material-symbols-outlined text-slate-400">chevron_right</span>
+            <span className="material-symbols-outlined" style={{ color: 'var(--outline)' }}>chevron_right</span>
           </button>
 
-          <button onClick={() => navigate('/marketplace')} className="w-full p-4 text-left flex justify-between items-center hover:bg-slate-50">
-            <span className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-emerald-600">card_giftcard</span> Minhas Recompensas
+          <button onClick={() => navigate('/marketplace')} className="list-item" style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', justifyContent: 'space-between' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', fontWeight: '700' }}>
+              <span className="material-symbols-outlined" style={{ color: 'var(--secondary)' }}>card_giftcard</span> Minhas Recompensas
             </span>
-            <span className="material-symbols-outlined text-slate-400">chevron_right</span>
+            <span className="material-symbols-outlined" style={{ color: 'var(--outline)' }}>chevron_right</span>
           </button>
         </div>
 
         {/* Logout button */}
         <button
           onClick={handleLogout}
-          className="w-full py-4 px-6 rounded-full bg-red-50 text-red-600 border border-red-200 font-extrabold text-xs flex items-center justify-center gap-2 hover:bg-red-100 transition-colors"
+          className="btn btn-outline btn-block"
+          style={{ borderColor: '#fecaca', color: '#991b1b', backgroundColor: '#fef2f2', borderRadius: '9999px', marginTop: '8px' }}
         >
-          <span className="material-symbols-outlined text-base">logout</span>
+          <span className="material-symbols-outlined" style={{ fontSize: '18px', marginRight: '6px' }}>logout</span>
           Sair da Conta
         </button>
       </main>

@@ -54,24 +54,22 @@ export default function MeusRelatos() {
   const displayReports = reports.length > 0 ? reports : defaultReports;
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
-      <main className="px-5 pt-3 space-y-4">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div>
-          <h1 className="text-xl font-extrabold text-[#0b1c30]">Meus Relatos</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Acompanhe suas contribuições para a comunidade.</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Meus Relatos</h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Acompanhe suas contribuições para a comunidade.</p>
         </div>
 
         {/* Filter chips */}
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="scroll-h">
           {['Todos', 'Em análise', 'Em execução', 'Resolvido'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                filter === f ? 'bg-[#1f108e] text-white shadow-sm' : 'bg-white text-slate-600 border border-slate-200'
-              }`}
+              className={`chip ${filter === f ? 'chip-active' : ''}`}
             >
               {f}
             </button>
@@ -79,27 +77,27 @@ export default function MeusRelatos() {
         </div>
 
         {/* List of reports */}
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {displayReports.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-indigo-50 text-[#1f108e] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-base">build</span>
+            <div key={item.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>build</span>
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-slate-900">{item.category}</h3>
-                    <div className="text-[10px] text-slate-400">{item.address}</div>
+                    <h3 style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>{item.category}</h3>
+                    <div style={{ fontSize: '10px', color: 'var(--outline)' }}>{item.address}</div>
                   </div>
                 </div>
 
                 <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                  className={`badge ${
                     item.status === 'resolvido'
-                      ? 'bg-emerald-100 text-[#006c49]'
+                      ? 'badge-resolvido'
                       : item.status === 'em_execucao'
-                      ? 'bg-amber-100 text-amber-800'
-                      : 'bg-indigo-100 text-[#1f108e]'
+                      ? 'badge-em-analise'
+                      : 'badge-em-execucao'
                   }`}
                 >
                   {item.status === 'resolvido' ? 'Resolvido' : item.status === 'em_execucao' ? 'Em execução' : 'Em análise'}
@@ -108,12 +106,12 @@ export default function MeusRelatos() {
 
               {item.status === 'em_execucao' && (
                 <div>
-                  <div className="flex justify-between text-[10px] font-bold text-slate-500 mb-1">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', fontWeight: '700', color: 'var(--outline)', marginBottom: '4px' }}>
                     <span>Progresso estimado</span>
                     <span>{item.progress}%</span>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2">
-                    <div className="bg-[#1f108e] h-full rounded-full" style={{ width: `${item.progress}%` }}></div>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ width: `${item.progress}%` }}></div>
                   </div>
                 </div>
               )}

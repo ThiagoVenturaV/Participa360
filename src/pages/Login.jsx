@@ -89,40 +89,40 @@ export default function Login() {
 
         <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--outline-variant)' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)', textAlign: 'center', marginBottom: '12px' }}>
-            Logins de Demonstração Rápidos:
+            Logins Rápidos do Banco Neon:
           </div>
           <div className="grid-2" style={{ gap: '8px' }}>
             <button
-              onClick={() => { setEmail('morador@participa360.com.br'); setPassword('demo123'); }}
+              onClick={() => { setEmail('joao@example.com'); setPassword('demo123'); }}
               className="btn btn-outline"
-              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--primary)' }}>Morador</span>
-              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>450 pts</span>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--primary)' }}>João Silva</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>joao@example.com</span>
             </button>
             <button
-              onClick={() => { setEmail('lider@participa360.com.br'); setPassword('demo123'); }}
+              onClick={() => { setEmail('elena@example.com'); setPassword('demo123'); }}
               className="btn btn-outline"
-              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--secondary)' }}>Líder</span>
-              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>1.200 pts</span>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--secondary)' }}>Elena Santos</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>elena@example.com</span>
             </button>
             <button
-              onClick={() => { setEmail('prefeitura@participa360.com.br'); setPassword('demo123'); }}
+              onClick={() => { setEmail('admin@prefeitura.gov.br'); setPassword('demo123'); }}
               className="btn btn-outline"
-              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
               <span style={{ fontWeight: '700', fontSize: '12px', color: '#b45309' }}>Prefeitura</span>
-              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>Gestão</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>admin@prefeitura.gov.br</span>
             </button>
             <button
-              onClick={() => { setEmail('empresa@participa360.com.br'); setPassword('demo123'); }}
+              onClick={() => { setEmail('contato@acmecorp.com'); setPassword('demo123'); }}
               className="btn btn-outline"
-              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <span style={{ fontWeight: '700', fontSize: '12px', color: '#6b21a8' }}>Empresa/IES</span>
-              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>CSR</span>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: '#6b21a8' }}>Acme Corp</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>contato@acmecorp.com</span>
             </button>
           </div>
         </div>

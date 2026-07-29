@@ -3,74 +3,72 @@ import Header from '../components/Header';
 
 export default function HomePrefeitura() {
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
-      <main className="px-5 pt-3 space-y-5">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <h1 className="text-xl font-extrabold text-[#0b1c30]">Painel de Gestão da Prefeitura</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Supervisão em tempo real das operações cívicas.</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Painel de Gestão da Prefeitura</h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Supervisão em tempo real das operações cívicas.</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="space-y-3">
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center">
-                <span className="material-symbols-outlined text-xl">warning</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#fef2f2', color: 'var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>warning</span>
               </div>
               <div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">PROBLEMAS ATIVOS</div>
-                <div className="text-2xl font-black text-[#0b1c30]">1.432</div>
+                <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>PROBLEMAS ATIVOS</div>
+                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>1.432</div>
               </div>
             </div>
-            <span className="text-xs font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-full">+12% vs sem. passada</span>
+            <span className="badge badge-urgente">+12% vs sem. passada</span>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                <span className="material-symbols-outlined text-xl">check_circle</span>
+          <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#ecfdf5', color: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>check_circle</span>
               </div>
               <div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">RELATOS RESOLVIDOS</div>
-                <div className="text-2xl font-black text-[#0b1c30]">8.901</div>
+                <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>RELATOS RESOLVIDOS</div>
+                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>8.901</div>
               </div>
             </div>
-            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">+5% vs sem. passada</span>
+            <span className="badge badge-resolvido">+5% vs sem. passada</span>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center">
-                <span className="material-symbols-outlined text-xl">group</span>
+          <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>group</span>
               </div>
               <div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">TAXA DE ENGAJAMENTO</div>
-                <div className="text-2xl font-black text-[#0b1c30]">68%</div>
+                <div style={{ fontSize: '10px', fontWeight: '700', color: 'var(--outline)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>TAXA DE ENGAJAMENTO</div>
+                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)' }}>68%</div>
               </div>
             </div>
-            <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">Estável</span>
+            <span className="badge badge-em-analise">Estável</span>
           </div>
         </div>
 
         {/* Heatmap Section */}
-        <section className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-[#0b1c30]">Pontos Críticos e Relatos ao Vivo</h3>
-            <span className="text-xs font-bold text-indigo-700 cursor-pointer">Filtros</span>
+        <section className="card" style={{ padding: '20px', borderRadius: '24px' }}>
+          <div className="section-header">
+            <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--on-surface)' }}>Pontos Críticos e Relatos ao Vivo</h3>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', cursor: 'pointer' }}>Filtros</span>
           </div>
 
-          <div className="w-full h-44 rounded-2xl bg-gradient-to-tr from-amber-100 via-rose-100 to-indigo-100 border border-slate-200 relative overflow-hidden flex flex-col justify-end p-3">
-            <div className="bg-white/90 backdrop-blur-md rounded-xl p-3 shadow-md space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
-                <span className="text-xs font-bold text-slate-900">Crítico: Infraestrutura</span>
+          <div style={{ width: '100%', height: '180px', borderRadius: '16px', background: 'linear-gradient(135deg, #fef3c7 0%, #ffe4e6 50%, #e0e7ff 100%)', border: '1px solid var(--outline-variant)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '12px', marginTop: '12px' }}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderRadius: '12px', padding: '12px', boxShadow: 'var(--shadow-default)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--error)', display: 'inline-block' }}></span>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--on-surface)' }}>Crítico: Infraestrutura</span>
               </div>
-              <p className="text-[11px] text-slate-600">Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.</p>
-              <button className="w-full py-2 rounded-xl bg-[#1f108e] text-white text-xs font-bold hover:bg-indigo-900">
-                Despachar Equipe
-              </button>
+              <p style={{ fontSize: '11px', color: 'var(--outline)', marginBottom: '8px' }}>Centro, Rua Principal. Rompimento na rede de água relatado por 15 cidadãos.</p>
+              <button className="btn btn-primary btn-sm btn-block">Despachar Equipe</button>
             </div>
           </div>
         </section>

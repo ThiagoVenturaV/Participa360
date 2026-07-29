@@ -5,12 +5,12 @@ export default function ReportarCategorias() {
   const navigate = useNavigate();
 
   const categories = [
-    { id: 'Buraco', title: 'Buraco', icon: 'build', color: 'bg-indigo-100 text-indigo-700' },
-    { id: 'Iluminação Pública', title: 'Iluminação Pública', icon: 'lightbulb', color: 'bg-amber-100 text-amber-700' },
-    { id: 'Coleta de Lixo', title: 'Coleta de Lixo', icon: 'delete', color: 'bg-emerald-100 text-emerald-700' },
-    { id: 'Vandalismo', title: 'Vandalismo', icon: 'format_paint', color: 'bg-purple-100 text-purple-700' },
-    { id: 'Vazamento de Água', title: 'Vazamento de Água', icon: 'water_drop', color: 'bg-blue-100 text-blue-700' },
-    { id: 'Outro', title: 'Outro', icon: 'more_horiz', color: 'bg-slate-100 text-slate-700' }
+    { id: 'Buraco', title: 'Buraco', icon: 'build', bg: '#e2dfff', color: '#1f108e' },
+    { id: 'Iluminação Pública', title: 'Iluminação Pública', icon: 'lightbulb', bg: '#fef3c7', color: '#b45309' },
+    { id: 'Coleta de Lixo', title: 'Coleta de Lixo', icon: 'delete', bg: '#ecfdf5', color: '#047857' },
+    { id: 'Vandalismo', title: 'Vandalismo', icon: 'format_paint', bg: '#f3e8ff', color: '#6b21a8' },
+    { id: 'Vazamento de Água', title: 'Vazamento de Água', icon: 'water_drop', bg: '#e0f2fe', color: '#0369a1' },
+    { id: 'Outro', title: 'Outro', icon: 'more_horiz', bg: '#f1f5f9', color: '#475569' }
   ];
 
   const handleSelect = (catId) => {
@@ -18,33 +18,46 @@ export default function ReportarCategorias() {
   };
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
-      <header className="flex items-center gap-3 px-5 py-4 bg-white border-b border-slate-100">
-        <button onClick={() => navigate(-1)} className="text-slate-600 hover:text-slate-900">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <header className="header" style={{ borderBottom: '1px solid var(--surface-dim)', backgroundColor: '#ffffff' }}>
+        <button onClick={() => navigate(-1)} className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto' }}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="text-lg font-bold text-[#0b1c30]">Participa 360</h1>
+        <h1 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--on-surface)' }}>Participa 360</h1>
+        <div style={{ width: '24px' }}></div>
       </header>
 
-      <main className="px-5 pt-5 space-y-6">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div>
-          <h2 className="text-2xl font-extrabold text-[#0b1c30]">Qual é o problema?</h2>
-          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-            Selecione a categoria que melhor descreve o problema que você deseja relatar. Isso nos ajuda a direcioná-lo para o departamento correto.
+          <h2 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--on-surface)', marginBottom: '4px' }}>Qual é o problema?</h2>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', lineHeight: '1.5' }}>
+            Selecione a categoria que melhor descreve o problema que você deseja relatar.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid-categories">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleSelect(cat.id)}
-              className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all flex flex-col items-center justify-center text-center space-y-3 active:scale-95"
+              className="card animate-slide-up"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                padding: '24px 16px',
+                borderRadius: '24px',
+                border: 'none',
+                cursor: 'pointer',
+                gap: '12px'
+              }}
             >
-              <div className={`w-14 h-14 rounded-full ${cat.color} flex items-center justify-center`}>
-                <span className="material-symbols-outlined text-2xl">{cat.icon}</span>
+              <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: cat.bg, color: cat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>{cat.icon}</span>
               </div>
-              <span className="text-xs font-bold text-[#0b1c30]">{cat.title}</span>
+              <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>{cat.title}</span>
             </button>
           ))}
         </div>

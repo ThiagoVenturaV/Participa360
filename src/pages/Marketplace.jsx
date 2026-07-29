@@ -34,79 +34,74 @@ export default function Marketplace() {
   ];
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header showPoints={false} />
 
-      <main className="px-5 pt-3 space-y-5">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>
-          <h1 className="text-xl font-extrabold text-[#0b1c30]">Recompensas</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Troque seus pontos por benefícios na cidade.</p>
+          <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'var(--on-surface)' }}>Recompensas</h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)', marginTop: '2px' }}>Troque seus pontos por benefícios na cidade.</p>
         </div>
 
         {/* Balance Card */}
-        <div className="bg-gradient-to-br from-[#1f108e] to-[#006c49] text-white rounded-3xl p-6 shadow-xl space-y-4">
-          <div className="flex justify-between items-center text-xs font-semibold text-indigo-200">
+        <div style={{ background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', color: '#ffffff', borderRadius: '24px', padding: '24px', boxShadow: 'var(--shadow-ambient)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', fontWeight: '700', letterSpacing: '0.05em', color: '#c3c0ff' }}>
             <span>SALDO ATUAL</span>
-            <span className="flex items-center gap-1 cursor-pointer">
-              <span className="material-symbols-outlined text-sm">history</span> Histórico
+            <span style={{ display: 'flex', items: 'center', gap: '4px', cursor: 'pointer' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>history</span> Histórico
             </span>
           </div>
 
-          <div className="text-4xl font-black">{points} <span className="text-xl font-normal">pts</span></div>
+          <div style={{ fontSize: '36px', fontWeight: '900' }}>{points} <span style={{ fontSize: '18px', fontWeight: '400' }}>pts</span></div>
 
-          <div className="space-y-1">
-            <div className="flex justify-between text-[11px] font-semibold text-indigo-200">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: '600', color: '#c3c0ff' }}>
               <span>Nível 2: Cidadão Engajado</span>
               <span>50 pts para Nível 3</span>
             </div>
-            <div className="w-full bg-black/20 rounded-full h-2">
-              <div className="bg-emerald-400 h-full rounded-full" style={{ width: '80%' }}></div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: '80%' }}></div>
             </div>
           </div>
         </div>
 
         {/* Daily Mission */}
-        <div className="bg-[#e5eeff] rounded-2xl p-4 border border-indigo-100 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#1f108e] text-white flex items-center justify-center">
+        <div className="card" style={{ backgroundColor: 'var(--surface-container)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderRadius: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span className="material-symbols-outlined">eco</span>
             </div>
             <div>
-              <div className="text-xs font-bold text-[#0b1c30]">Missão do Dia</div>
-              <div className="text-[11px] text-slate-600">Reporte um buraco na sua rua.</div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Missão do Dia</div>
+              <div style={{ fontSize: '11px', color: 'var(--outline)' }}>Reporte um buraco na sua rua.</div>
             </div>
           </div>
-          <span className="px-3 py-1 rounded-full bg-[#006c49] text-white text-xs font-bold">
-            +20 pts
-          </span>
+          <span className="badge badge-resolvido">+20 pts</span>
         </div>
 
         {/* Benefits Showcase */}
-        <section className="space-y-3">
-          <h2 className="text-base font-bold text-[#0b1c30]">Vitrine de Benefícios</h2>
+        <section className="section" style={{ marginBottom: 0 }}>
+          <h2 className="section-title" style={{ fontSize: '16px', marginBottom: '12px' }}>Vitrine de Benefícios</h2>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {rewards.map((r) => (
-              <div key={r.id} className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div key={r.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)' }}>
                     {r.category}
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#006c49] text-xs font-bold">
+                  <span className="badge badge-resolvido">
                     ✪ {r.cost} pts
                   </span>
                 </div>
 
-                <h3 className="text-sm font-bold text-[#0b1c30]">{r.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{r.desc}</p>
+                <h3 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)' }}>{r.title}</h3>
+                <p style={{ fontSize: '12px', color: 'var(--outline)', lineHeight: '1.5' }}>{r.desc}</p>
 
                 <button
                   disabled={points < r.cost}
-                  className={`w-full py-3 rounded-full text-xs font-bold flex items-center justify-center gap-1 transition-all ${
-                    points >= r.cost
-                      ? 'bg-[#1f108e] text-white hover:bg-indigo-950 shadow-md shadow-indigo-100'
-                      : 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  }`}
+                  className={`btn ${points >= r.cost ? 'btn-primary' : 'btn-outline'} btn-block`}
+                  style={{ borderRadius: '9999px', opacity: points < r.cost ? 0.5 : 1 }}
                 >
                   {points >= r.cost ? 'Resgatar →' : 'Pontos Insuficientes 🔒'}
                 </button>
