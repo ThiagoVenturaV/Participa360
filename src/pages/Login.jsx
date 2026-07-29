@@ -10,13 +10,14 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleQuickLogin = async (demoEmail, demoPassword) => {
+    setEmail(demoEmail);
+    setPassword(demoPassword);
     setLoading(true);
     setError('');
 
     try {
-      const user = await login(email, password);
+      const user = await login(demoEmail, demoPassword);
       if (user.role === 'lider') navigate('/home-lider');
       else if (user.role === 'prefeitura') navigate('/home-prefeitura');
       else if (user.role === 'empresa') navigate('/home-empresa');
@@ -26,6 +27,11 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    handleQuickLogin(email, password);
   };
 
   return (
@@ -89,35 +95,46 @@ export default function Login() {
 
         <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--outline-variant)' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)', textAlign: 'center', marginBottom: '12px' }}>
-            Logins Rápidos do Banco Neon:
+            Logins Rápidos (Clique para Entrar):
           </div>
           <div className="grid-2" style={{ gap: '8px' }}>
             <button
-              onClick={() => { setEmail('joao@example.com'); setPassword('demo123'); }}
+              type="button"
+              onClick={() => handleQuickLogin('joao@example.com', 'demo123')}
+              disabled={loading}
               className="btn btn-outline"
               style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
               <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--primary)' }}>João Silva</span>
               <span style={{ fontSize: '10px', color: 'var(--outline)' }}>joao@example.com</span>
             </button>
+
             <button
-              onClick={() => { setEmail('elena@example.com'); setPassword('demo123'); }}
+              type="button"
+              onClick={() => handleQuickLogin('elena@example.com', 'demo123')}
+              disabled={loading}
               className="btn btn-outline"
               style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
               <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--secondary)' }}>Elena Santos</span>
               <span style={{ fontSize: '10px', color: 'var(--outline)' }}>elena@example.com</span>
             </button>
+
             <button
-              onClick={() => { setEmail('admin@prefeitura.gov.br'); setPassword('demo123'); }}
+              type="button"
+              onClick={() => handleQuickLogin('admin@prefeitura.gov.br', 'demo123')}
+              disabled={loading}
               className="btn btn-outline"
               style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
               <span style={{ fontWeight: '700', fontSize: '12px', color: '#b45309' }}>Prefeitura</span>
               <span style={{ fontSize: '10px', color: 'var(--outline)' }}>admin@prefeitura.gov.br</span>
             </button>
+
             <button
-              onClick={() => { setEmail('contato@acmecorp.com'); setPassword('demo123'); }}
+              type="button"
+              onClick={() => handleQuickLogin('contato@acmecorp.com', 'demo123')}
+              disabled={loading}
               className="btn btn-outline"
               style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '10px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >

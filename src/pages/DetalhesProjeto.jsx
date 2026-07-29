@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../components/Toast';
 import parkImg from '../assets/park_revitalization.jpg';
 
 export default function DetalhesProjeto() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const [volunteered, setVolunteered] = useState(false);
+
+  const handleVolunteer = () => {
+    setVolunteered(true);
+    showToast('Inscrição realizada como voluntário no projeto! 🎉', 'success');
+  };
 
   return (
     <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
@@ -90,9 +98,14 @@ export default function DetalhesProjeto() {
             <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>handshake</span>
           </div>
           <h3 style={{ fontSize: '14px', fontWeight: '700' }}>Participe!</h3>
-          <p style={{ fontSize: '12px', color: 'var(--outline)' }}>Precisamos de voluntários para o plantio de mudas neste final de semana.</p>
-          <button className="btn btn-primary btn-block" style={{ borderRadius: '9999px' }}>
-            Quero ser Voluntário
+          <p style={{ fontSize: '12px', color: 'var(--outline)' }}>{volunteered ? '✓ Você é um voluntário inscrito neste projeto!' : 'Precisamos de voluntários para o plantio de mudas neste final de semana.'}</p>
+          <button
+            onClick={handleVolunteer}
+            disabled={volunteered}
+            className={`btn ${volunteered ? 'btn-success' : 'btn-primary'} btn-block`}
+            style={{ borderRadius: '9999px' }}
+          >
+            {volunteered ? 'Inscrito como Voluntário ✓' : 'Quero ser Voluntário'}
           </button>
         </div>
       </main>

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import { useToast } from '../components/Toast';
+import { useAuth } from '../context/AuthContext';
 
 import urbanBlueprintImg from '../assets/urban_blueprint.jpg';
 import avatarMariaImg from '../assets/avatar_maria.jpg';
 
 export default function HomeMorador() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { user, setUser } = useAuth();
+
   const [selectedPoll, setSelectedPoll] = useState(null);
   const [voted, setVoted] = useState(false);
   const [liked1, setLiked1] = useState(false);
@@ -14,19 +19,46 @@ export default function HomeMorador() {
   const [liked2, setLiked2] = useState(false);
   const [likes2, setLikes2] = useState(42);
 
+  const [showComments1, setShowComments1] = useState(false);
+  const [comments1List, setComments1List] = useState([
+    { author: 'Carlos A.', text: 'Ótima iniciativa! A rua estava precisando mesmo.' },
+    { author: 'Ana P.', text: 'Qual o prazo estimado de conclusão?' }
+  ]);
+  const [newComment1, setNewComment1] = useState('');
+
   const handleVote = (option) => {
+    if (voted) return;
     setSelectedPoll(option);
     setVoted(true);
+    if (user) {
+      setUser({ ...user, points: (user.points || 450) + 5 });
+    }
+    showToast(`Voto registrado em "${option}"! +5 pontos computados! 🎉`, 'success');
   };
 
   const toggleLike1 = () => {
     setLiked1(!liked1);
     setLikes1(liked1 ? likes1 - 1 : likes1 + 1);
+    showToast(liked1 ? 'Curtida removida' : 'Você curtiu esta publicação! 👍', 'info');
   };
 
   const toggleLike2 = () => {
     setLiked2(!liked2);
     setLikes2(liked2 ? likes2 - 1 : likes2 + 1);
+    showToast(liked2 ? 'Curtida removida' : 'Você curtiu esta publicação! ❤️', 'info');
+  };
+
+  const handleAddComment1 = (e) => {
+    e.preventDefault();
+    if (!newComment1.trim()) return;
+    setComments1List([...comments1List, { author: user?.name || 'Você', text: newComment1 }]);
+    setNewComment1('');
+    showToast('Comentário publicado com sucesso!', 'success');
+  };
+
+  const handleShare = () => {
+    navigator.clipboard?.writeText(window.location.href);
+    showToast('Link da publicação copiado para a área de transferência! 🔗', 'info');
   };
 
   return (
@@ -114,16 +146,15 @@ export default function HomeMorador() {
             </div>
           </div>
 
-          {/* Post 1 - Projeto de Recapeamento com imagem exatamente igual ao Stitch */}
+          {/* Post 1 */}
           <div className="card feed-item" style={{ marginTop: '12px', padding: '20px', borderRadius: '24px' }}>
             <h4 style={{ fontSize: '16px', fontWeight: '800', marginBottom: '8px', color: 'var(--on-surface)', lineHeight: '1.3' }}>
               Projeto de Recapeamento da Rua Principal
             </h4>
             <p style={{ fontSize: '13px', color: 'var(--on-surface)', lineHeight: '1.5', marginBottom: '16px' }}>
-              As obras começarão nesta segunda-feira na Rua Principal, entre a 4ª e a 8ª Avenida. Espere atrasos e use rotas alternativas se possível.
+              As obras começarão nesta segunda-feira na Rua Principal. Espere atrasos e use rotas alternativas se possível.
             </p>
 
-            {/* Image reference from Stitch screenshot */}
             <div style={{ width: '100%', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px', border: '1px solid var(--surface-dim)', boxShadow: 'var(--shadow-sm)' }}>
               <img
                 src={urbanBlueprintImg}
@@ -138,19 +169,45 @@ export default function HomeMorador() {
                   <span className={`material-symbols-outlined ${liked1 ? 'font-fill' : ''}`} style={{ fontSize: '18px' }}>thumb_up</span>
                   {likes1}
                 </button>
-                <button className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto', gap: '6px', color: 'var(--outline)' }}>
+                <button onClick={() => setShowComments1(!showComments1)} className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto', gap: '6px', color: 'var(--outline)' }}>
                   <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>chat_bubble_outline</span>
-                  18
+                  {comments1List.length}
                 </button>
               </div>
 
-              <button className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto', color: 'var(--outline)' }}>
+              <button onClick={handleShare} className="btn btn-ghost" style={{ padding: 0, minHeight: 'auto', color: 'var(--outline)' }}>
                 <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>share</span>
               </button>
             </div>
+
+            {/* Comments Drawer */}
+            {showComments1 && (
+              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--surface-dim)' }}>
+                <div style={{ fontSize: '12px', fontWeight: '700', marginBottom: '8px' }}>Comentários:</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }}>
+                  {comments1List.map((c, i) => (
+                    <div key={i} style={{ padding: '8px 12px', borderRadius: '12px', backgroundColor: 'var(--surface-container)', fontSize: '12px' }}>
+                      <span style={{ fontWeight: '700', color: 'var(--primary)' }}>{c.author}: </span>
+                      <span style={{ color: 'var(--on-surface)' }}>{c.text}</span>
+                    </div>
+                  ))}
+                </div>
+                <form onSubmit={handleAddComment1} style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    type="text"
+                    placeholder="Escreva um comentário..."
+                    value={newComment1}
+                    onChange={(e) => setNewComment1(e.target.value)}
+                    className="input-field"
+                    style={{ flex: 1, minHeight: '36px', padding: '6px 12px', fontSize: '12px' }}
+                  />
+                  <button type="submit" className="btn btn-primary btn-sm">Enviar</button>
+                </form>
+              </div>
+            )}
           </div>
 
-          {/* Post 2 - Maria G. com foto de perfil e badge Resolvido exatamente igual ao Stitch */}
+          {/* Post 2 */}
           <div className="card feed-item" style={{ padding: '20px', borderRadius: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
