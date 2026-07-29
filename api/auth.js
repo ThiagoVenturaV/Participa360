@@ -10,21 +10,26 @@ export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const action = req.query.action || url.pathname.split('/').pop();
 
+  let body = req.body || {};
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch (e) {}
+  }
+
   try {
     if (action === 'login' && req.method === 'POST') {
-      const { email, password } = req.body || {};
-      if (!email || !password) return error(res, 'Missing fields', 400);
+      const { email, password } = body;
+      if (!email || !password) return error(res, 'Campos obrigatórios faltando', 400);
 
       const users = await sql`SELECT * FROM users WHERE email = ${email}`;
-      if (users.length === 0) return error(res, 'Invalid credentials', 401);
+      if (users.length === 0) return error(res, 'Email ou senha inválidos', 401);
 
       const user = users[0];
       const valid = await argon2.verify(user.password_hash, password);
-      if (!valid) return error(res, 'Invalid credentials', 401);
+      if (!valid) return error(res, 'Email ou senha inválidos', 401);
 
       const token = jwt.sign(
         { sub: user.id, role: user.role, name: user.name },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET || 'participa360_secret_jwt_key_2026',
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
       );
 
@@ -42,8 +47,8 @@ export default async function handler(req, res) {
     }
 
     if (action === 'register' && req.method === 'POST') {
-      const { name, email, password, role = 'morador' } = req.body || {};
-      if (!name || !email || !password) return error(res, 'Missing fields', 400);
+      const { name, email, password, role = 'morador' } = body;
+      if (!name || !email || !password) return error(res, 'Campos obrigatórios faltando', 400);
 
       const passwordHash = await argon2.hash(password);
 
@@ -57,7 +62,7 @@ export default async function handler(req, res) {
 
       const token = jwt.sign(
         { sub: user.id, role: user.role, name: user.name },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET || 'participa360_secret_jwt_key_2026',
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
       );
 
@@ -70,15 +75,15 @@ export default async function handler(req, res) {
         SELECT id, name, email, role, points, level, avatar_url, neighborhood, created_at
         FROM users WHERE id = ${decoded.sub}
       `;
-      if (users.length === 0) return error(res, 'User not found', 404);
+      if (users.length === 0) return error(res, 'Usuário não encontrado', 404);
       return json(res, users[0]);
     }
 
-    return error(res, 'Action or method not supported', 404);
+    return error(res, 'Ação ou método não suportado', 404);
   } catch (err) {
-    if (err.message?.includes('unique constraint')) {
-      return error(res, 'Email already exists', 400);
+    if (err.message?.includes('unique constraint') || err.message?.includes('users_email_key')) {
+      return error(res, 'Email já cadastrado no sistema', 400);
     }
-    return error(res, err.message || 'Internal Server Error', 500);
+    return error(res, err.message || 'Erro interno no servidor', 500);
   }
 }

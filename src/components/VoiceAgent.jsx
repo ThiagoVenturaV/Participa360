@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -8,7 +8,7 @@ export default function VoiceAgent() {
   const [speaking, setSpeaking] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [responseSpeech, setResponseSpeech] = useState('');
-  const { token, user } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   const isSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
@@ -114,47 +114,59 @@ export default function VoiceAgent() {
       <button
         onClick={startListening}
         aria-label="Assistente de Voz (Cora)"
-        className={`fixed right-5 bottom-20 w-14 h-14 rounded-full bg-[#1f108e] text-white shadow-lg flex items-center justify-center z-50 transition-all transform hover:scale-110 active:scale-95 ${
-          listening ? 'bg-red-600 animate-pulse ring-4 ring-red-300' : speaking ? 'bg-emerald-600' : ''
-        }`}
+        className={`fab-voice ${listening ? 'listening' : processing ? 'processing' : speaking ? 'speaking' : ''}`}
       >
-        <span className="material-symbols-outlined text-2xl">
+        <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>
           {listening ? 'graphic_eq' : speaking ? 'volume_up' : 'mic'}
         </span>
       </button>
 
       {(listening || processing || responseSpeech) && (
-        <div className="fixed bottom-36 left-4 right-4 max-w-md mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-4 border border-indigo-100 z-50 animate-slide-up">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
+        <div
+          className="card"
+          style={{
+            position: 'fixed',
+            bottom: '120px',
+            left: '20px',
+            right: '20px',
+            maxWidth: '440px',
+            margin: '0 auto',
+            zIndex: 999,
+            padding: '16px',
+            borderRadius: '20px',
+            boxShadow: 'var(--shadow-elevated)',
+            border: '1px solid var(--surface-dim)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--surface-container)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
               🤖
             </div>
-            <div className="text-xs font-semibold text-indigo-900 uppercase tracking-wider">
-              Cora — Assistente de Voz
+            <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Cora — Assistente de Voz (Groq AI)
             </div>
             <button
               onClick={() => { setTranscript(''); setResponseSpeech(''); window.speechSynthesis.cancel(); }}
-              className="ml-auto text-slate-400 hover:text-slate-600"
+              style={{ marginLeft: 'auto', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--outline)' }}
             >
-              <span className="material-symbols-outlined text-sm">close</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>close</span>
             </button>
           </div>
 
           {transcript && (
-            <div className="text-xs text-slate-500 italic mb-1">
-              " {transcript} "
+            <div style={{ fontSize: '12px', color: 'var(--outline)', fontStyle: 'italic', marginBottom: '4px' }}>
+              "{transcript}"
             </div>
           )}
 
           {processing && (
-            <div className="text-xs text-indigo-600 font-medium animate-pulse flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm animate-spin">sync</span>
+            <div style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: '600' }}>
               Pensando com Groq AI...
             </div>
           )}
 
           {responseSpeech && (
-            <div className="text-sm font-semibold text-slate-900 mt-1">
+            <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--on-surface)', marginTop: '4px' }}>
               {responseSpeech}
             </div>
           )}

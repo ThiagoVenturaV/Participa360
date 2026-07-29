@@ -29,103 +29,100 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9ff] px-5 py-8">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[#1f108e] text-white flex items-center justify-center mx-auto mb-4 text-2xl font-black shadow-lg shadow-indigo-200">
+    <div className="page page-login animate-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
+      <div className="card animate-slide-up stagger-1" style={{ maxWidth: '420px', width: '100%', padding: '32px', borderRadius: '24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '20px', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '24px', fontWeight: '900', boxShadow: 'var(--shadow-ambient)' }}>
             360
           </div>
-          <h1 className="text-2xl font-extrabold text-[#0b1c30]">Participa 360</h1>
-          <p className="text-slate-500 text-sm mt-1">Transforme sua cidade com a comunidade</p>
+          <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--on-surface)', marginBottom: '4px' }}>Participa 360</h1>
+          <p style={{ fontSize: '14px', color: 'var(--outline)' }}>Transforme sua cidade com a comunidade</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl">
+          <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', borderRadius: '12px', fontSize: '13px' }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              Email
-            </label>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label className="input-label">Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu.email@exemplo.com"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-slate-900 text-sm transition-all"
+              className="input-field"
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              Senha
-            </label>
+          <div className="input-group" style={{ marginBottom: '24px' }}>
+            <label className="input-label">Senha</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-slate-900 text-sm transition-all"
+              className="input-field"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 rounded-full bg-[#1f108e] text-white font-bold hover:bg-indigo-900 transition-colors shadow-md shadow-indigo-200 flex items-center justify-center gap-2 mt-6"
+            className="btn btn-primary btn-lg btn-block"
+            style={{ borderRadius: '9999px' }}
           >
-            {loading ? (
-              <span className="material-symbols-outlined animate-spin text-xl">sync</span>
-            ) : (
-              'Entrar'
-            )}
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-slate-500">
+        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '13px', color: 'var(--outline)' }}>
           Não tem uma conta?{' '}
-          <Link to="/register" className="font-bold text-[#1f108e] hover:underline">
+          <Link to="/register" style={{ fontWeight: '700', color: 'var(--primary)', textDecoration: 'none' }}>
             Cadastre-se como Morador
           </Link>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-slate-100">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 text-center mb-3">
-            Demo Logins Rápido:
+        <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--outline-variant)' }}>
+          <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--outline)', textAlign: 'center', marginBottom: '12px' }}>
+            Logins de Demonstração Rápidos:
           </div>
-          <div className="grid grid-cols-2 gap-2 text-xs">
+          <div className="grid-2" style={{ gap: '8px' }}>
             <button
               onClick={() => { setEmail('morador@participa360.com.br'); setPassword('demo123'); }}
-              className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-left hover:bg-indigo-50 transition-colors"
+              className="btn btn-outline"
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <div className="font-bold text-indigo-900">Morador</div>
-              <div className="text-[10px] text-slate-500">450 pts</div>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--primary)' }}>Morador</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>450 pts</span>
             </button>
             <button
               onClick={() => { setEmail('lider@participa360.com.br'); setPassword('demo123'); }}
-              className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-left hover:bg-emerald-50 transition-colors"
+              className="btn btn-outline"
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <div className="font-bold text-emerald-900">Líder</div>
-              <div className="text-[10px] text-slate-500">1.200 pts</div>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: 'var(--secondary)' }}>Líder</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>1.200 pts</span>
             </button>
             <button
               onClick={() => { setEmail('prefeitura@participa360.com.br'); setPassword('demo123'); }}
-              className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-left hover:bg-amber-50 transition-colors"
+              className="btn btn-outline"
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <div className="font-bold text-amber-900">Prefeitura</div>
-              <div className="text-[10px] text-slate-500">Gestão</div>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: '#b45309' }}>Prefeitura</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>Gestão</span>
             </button>
             <button
               onClick={() => { setEmail('empresa@participa360.com.br'); setPassword('demo123'); }}
-              className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-left hover:bg-purple-50 transition-colors"
+              className="btn btn-outline"
+              style={{ justifyContent: 'flex-start', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px', minHeight: 'auto', borderRadius: '12px' }}
             >
-              <div className="font-bold text-purple-900">Empresa/IES</div>
-              <div className="text-[10px] text-slate-500">CSR</div>
+              <span style={{ fontWeight: '700', fontSize: '12px', color: '#6b21a8' }}>Empresa/IES</span>
+              <span style={{ fontSize: '10px', color: 'var(--outline)' }}>CSR</span>
             </button>
           </div>
         </div>

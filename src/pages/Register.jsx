@@ -27,78 +27,69 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9ff] px-5 py-8">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-extrabold text-[#0b1c30]">Criar Conta Morador</h1>
-          <p className="text-slate-500 text-sm mt-1">Faça a diferença na sua comunidade</p>
+    <div className="page page-login animate-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
+      <div className="card animate-slide-up stagger-1" style={{ maxWidth: '420px', width: '100%', padding: '32px', borderRadius: '24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <h1 style={{ fontSize: '22px', fontWeight: '800', color: 'var(--on-surface)', marginBottom: '4px' }}>Criar Conta Morador</h1>
+          <p style={{ fontSize: '13px', color: 'var(--outline)' }}>Faça a diferença na sua comunidade</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl">
+          <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', borderRadius: '12px', fontSize: '13px' }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              Nome Completo
-            </label>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label className="input-label">Nome Completo</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Maria Silva"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-slate-900 text-sm transition-all"
+              className="input-field"
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              Email
-            </label>
+          <div className="input-group">
+            <label className="input-label">Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu.email@exemplo.com"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-slate-900 text-sm transition-all"
+              className="input-field"
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              Senha
-            </label>
+          <div className="input-group" style={{ marginBottom: '24px' }}>
+            <label className="input-label">Senha</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-[#1f108e] focus:ring-2 focus:ring-indigo-100 outline-none text-slate-900 text-sm transition-all"
+              className="input-field"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 rounded-full bg-[#1f108e] text-white font-bold hover:bg-indigo-900 transition-colors shadow-md shadow-indigo-200 flex items-center justify-center gap-2 mt-6"
+            className="btn btn-primary btn-lg btn-block"
+            style={{ borderRadius: '9999px' }}
           >
-            {loading ? (
-              <span className="material-symbols-outlined animate-spin text-xl">sync</span>
-            ) : (
-              'Cadastrar e Começar'
-            )}
+            {loading ? 'Cadastrando...' : 'Cadastrar e Começar'}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-slate-500">
+        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '13px', color: 'var(--outline)' }}>
           Já possui uma conta?{' '}
-          <Link to="/login" className="font-bold text-[#1f108e] hover:underline">
+          <Link to="/login" style={{ fontWeight: '700', color: 'var(--primary)', textDecoration: 'none' }}>
             Fazer Login
           </Link>
         </div>

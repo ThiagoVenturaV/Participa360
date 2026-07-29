@@ -13,67 +13,73 @@ export default function HomeMorador() {
   };
 
   return (
-    <div className="pb-24 max-w-md mx-auto min-h-screen bg-[#f8f9ff]">
+    <div className="page" style={{ maxWidth: '480px', margin: '0 auto' }}>
       <Header />
 
-      <main className="px-5 pt-3 space-y-5">
+      <main className="page-content" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Big Report Button */}
         <button
           onClick={() => navigate('/reportar')}
-          className="w-full py-4 px-6 rounded-2xl bg-[#1f108e] text-white font-extrabold text-lg flex items-center justify-center gap-3 shadow-xl shadow-indigo-200 hover:bg-indigo-950 transition-all transform active:scale-98"
+          className="btn btn-primary btn-lg btn-block"
+          style={{ gap: '12px', fontSize: '18px', fontWeight: '800', boxShadow: 'var(--shadow-ambient)', borderRadius: '16px' }}
         >
-          <span className="material-symbols-outlined text-3xl">report_problem</span>
+          <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>report_problem</span>
           Reportar Problema
         </button>
 
         {/* Rewards Preview */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-base font-bold text-[#0b1c30]">Recompensas</h2>
-            <button onClick={() => navigate('/marketplace')} className="text-xs font-bold text-[#1f108e] hover:underline flex items-center gap-0.5">
-              Ver todas <span className="material-symbols-outlined text-sm">arrow_forward</span>
+        <section className="section" style={{ marginBottom: 0 }}>
+          <div className="section-header">
+            <h2 className="section-title" style={{ fontSize: '16px' }}>Recompensas</h2>
+            <button onClick={() => navigate('/marketplace')} className="btn btn-ghost btn-sm" style={{ fontWeight: '700', padding: 0 }}>
+              Ver todas →
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div onClick={() => navigate('/marketplace')} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
+          <div className="grid-2">
+            <div onClick={() => navigate('/marketplace')} className="card" style={{ cursor: 'pointer' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '12px', backgroundColor: '#fffbe3', color: '#b45309', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
                 <span className="material-symbols-outlined">directions_bus</span>
               </div>
-              <div className="text-xs font-bold text-slate-800 line-clamp-1">Passe Livre</div>
-              <div className="text-[11px] font-bold text-[#006c49] mt-1">300 pts</div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Passe Livre</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>300 pts</div>
             </div>
 
-            <div onClick={() => navigate('/marketplace')} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm cursor-pointer hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
+            <div onClick={() => navigate('/marketplace')} className="card" style={{ cursor: 'pointer' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '12px', backgroundColor: '#ecfdf5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
                 <span className="material-symbols-outlined">park</span>
               </div>
-              <div className="text-xs font-bold text-slate-800 line-clamp-1">Plantio de Árvore</div>
-              <div className="text-[11px] font-bold text-[#006c49] mt-1">500 pts</div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--on-surface)' }}>Plantio de Árvore</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--secondary)', marginTop: '4px' }}>500 pts</div>
             </div>
           </div>
         </section>
 
         {/* Enquete da Cidade */}
-        <section className="bg-[#1f108e] text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
-          <div className="text-[11px] font-semibold tracking-wider uppercase text-indigo-200 flex items-center gap-1.5 mb-2">
-            <span className="material-symbols-outlined text-sm">poll</span>
+        <section className="hero-card" style={{ padding: '20px', borderRadius: '24px' }}>
+          <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#c3c0ff', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>poll</span>
             Enquete da Cidade
           </div>
-          <h3 className="text-sm font-bold leading-snug mb-4">
+          <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '16px', lineHeight: '1.4' }}>
             Qual área precisa de novas ciclovias a seguir?
           </h3>
 
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {['Distrito Norte', 'Centro da Cidade'].map((option) => (
               <button
                 key={option}
                 onClick={() => handleVote(option)}
-                className={`w-full py-2.5 px-4 rounded-xl font-semibold text-xs text-left transition-all ${
-                  selectedPoll === option
-                    ? 'bg-emerald-500 text-white font-bold'
-                    : 'bg-white text-slate-900 hover:bg-indigo-50'
-                }`}
+                className="btn"
+                style={{
+                  width: '100%',
+                  justifyContent: 'flex-start',
+                  backgroundColor: selectedPoll === option ? 'var(--secondary)' : '#ffffff',
+                  color: selectedPoll === option ? '#ffffff' : 'var(--on-surface)',
+                  fontSize: '13px',
+                  borderRadius: '12px',
+                  padding: '10px 16px'
+                }}
               >
                 {option} {voted && selectedPoll === option && ' ✓ (+5 pts)'}
               </button>
@@ -82,63 +88,31 @@ export default function HomeMorador() {
         </section>
 
         {/* Feed da Comunidade */}
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-[#0b1c30]">Feed da Comunidade</h2>
-            <div className="flex gap-1 text-xs">
-              <span className="px-3 py-1 rounded-full bg-[#1f108e] text-white font-semibold">Todos</span>
-              <span className="px-3 py-1 rounded-full bg-slate-200 text-slate-600 font-semibold">Oficial</span>
+        <section className="section" style={{ marginBottom: 0 }}>
+          <div className="section-header">
+            <h2 className="section-title" style={{ fontSize: '16px' }}>Feed da Comunidade</h2>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              <span className="chip chip-active">Todos</span>
+              <span className="chip">Oficial</span>
             </div>
           </div>
 
-          {/* Feed Post 1 */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-indigo-900 text-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-xl">account_balance</span>
+          <div className="card feed-item" style={{ marginTop: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-symbols-outlined">account_balance</span>
               </div>
               <div>
-                <div className="text-xs font-bold text-slate-900">Câmara Municipal</div>
-                <div className="text-[11px] text-slate-400">Atualização Oficial • 2h atrás</div>
+                <div style={{ fontSize: '13px', fontWeight: '700' }}>Câmara Municipal</div>
+                <div style={{ fontSize: '11px', color: 'var(--outline)' }}>Atualização Oficial • 2h atrás</div>
               </div>
             </div>
 
-            <h4 className="text-sm font-bold text-slate-900 leading-snug">
+            <h4 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '8px' }}>
               Projeto de Recapeamento da Rua Principal
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              As obras começarão nesta segunda-feira na Rua Principal, entre a 4ª e a 8ª Avenida. Espere atrasos e use rotas alternativas.
-            </p>
-
-            <div className="flex items-center gap-4 pt-2 text-xs text-slate-500 font-medium">
-              <button className="flex items-center gap-1 hover:text-indigo-600">
-                <span className="material-symbols-outlined text-base">thumb_up</span> 124
-              </button>
-              <button className="flex items-center gap-1 hover:text-indigo-600">
-                <span className="material-symbols-outlined text-base">chat</span> 18
-              </button>
-            </div>
-          </div>
-
-          {/* Feed Post 2 */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
-                  MG
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Maria G.</div>
-                  <div className="text-[10px] text-slate-400">Vizinha • 5h atrás</div>
-                </div>
-              </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-[#006c49] text-[10px] font-bold">
-                ✓ Resolvido
-              </span>
-            </div>
-
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Obrigada à cidade por consertar o poste de luz na rua Oak tão rápido! Torna o passeio com o cachorro muito mais seguro à noite.
+            <p style={{ fontSize: '13px', color: 'var(--on-surface)', lineHeight: '1.5' }}>
+              As obras começarão nesta segunda-feira na Rua Principal. Espere atrasos e use rotas alternativas.
             </p>
           </div>
         </section>
