@@ -2,20 +2,10 @@ import router from './router.js';
 import store from './store.js';
 import { api } from './api.js';
 
-// Dynamically insert CSS links (since this is vanilla JS, bundler doesn't inject automatically)
-const cssFiles = [
-  '/css/design-system.css',
-  '/css/components.css',
-  '/css/layouts.css',
-  '/css/animations.css'
-];
-
-cssFiles.forEach(href => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.head.appendChild(link);
-});
+import '../css/design-system.css';
+import '../css/components.css';
+import '../css/layouts.css';
+import '../css/animations.css';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // 1. Register Service Worker
